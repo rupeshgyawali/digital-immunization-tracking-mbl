@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/helpers/api_base_helper.dart';
 import '../models/auth_token_model.dart';
 
 class AuthRepository {
-  final http.Client _apiClient;
+  final ApiBaseHelper _apiBaseHelper;
 
   AuthRepository({
-    @required apiClient,
-  }) : this._apiClient = apiClient;
+    @required apiBaseHelper,
+  }) : this._apiBaseHelper = apiBaseHelper;
 
   Future<bool> loginHealthPersonnel(String email, String password) async {
     AuthToken authToken = await _getTokenFromRemote(email, password);
@@ -34,13 +34,11 @@ class AuthRepository {
   Future<AuthToken> _getTokenFromRemote(String email, String password) async {
     AuthToken authToken;
     try {
-      http.Response response = await _apiClient.post(
-          Uri.parse('http://localhost:8000/api/authenticate'),
-          body: {'email': email, 'password': password},
-          headers: {'Accept': 'application/json'});
-      if (response.statusCode == 200) {
-        authToken = AuthToken.fromJson(response.body);
-      }
+      String jsonResponse = await _apiBaseHelper.post(
+        '/authenticate',
+        data: {'email': email, 'password': password},
+      );
+      authToken = AuthToken.fromJson(jsonResponse);
     } catch (e) {
       print(e);
     }
@@ -65,19 +63,14 @@ class AuthRepository {
 
   //Revoke currently authenticated user's auth tokens from remote
   Future<bool> _deleteTokenFromRemote() async {
-    http.Response response;
+    String jsonResponse;
     try {
-      AuthToken authToken = await _getTokenFromLocalCache();
-      response = await _apiClient
-          .post(Uri.parse('http://localhost:8000/api/logout'), headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + authToken.token
-      });
-      print(response.body);
+      jsonResponse = await _apiBaseHelper.post('/logout');
+      print(jsonResponse);
     } catch (e) {
       print(e);
       return false;
     }
-    return response.statusCode == 200 ? true : false;
+    return true;
   }
 }
