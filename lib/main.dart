@@ -1,3 +1,4 @@
+import 'package:digital_immunization_tracking/firstpage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,11 +10,12 @@ class DigitalImmunizationTrackingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Digital Immunization Tracking',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Text('Hello World!'),
+      home: FirstPage(),
     );
   }
 }
