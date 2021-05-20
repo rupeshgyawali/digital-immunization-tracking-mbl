@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/routes/route_paths.dart';
+
 class UserSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,8 +13,7 @@ class UserSelectionScreen extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20),
         onPressed: () {
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => HealthPersonal()));
+          Navigator.pushNamed(context, RoutePath.health_personnel_login);
         },
         child: Text(
           'Health Personal',

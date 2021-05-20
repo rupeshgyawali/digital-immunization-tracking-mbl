@@ -42,6 +42,8 @@ class ApiBaseHelper {
       _checkResponseStatus(response);
     } on SocketException {
       throw ApiException('Connection failed.');
+    } on http.ClientException {
+      throw ApiException('Connection failed.');
     }
     return response.body;
   }
@@ -57,6 +59,8 @@ class ApiBaseHelper {
       );
       _checkResponseStatus(response);
     } on SocketException {
+      throw ApiException('Connection failed.');
+    } on http.ClientException {
       throw ApiException('Connection failed.');
     }
     return response.body;

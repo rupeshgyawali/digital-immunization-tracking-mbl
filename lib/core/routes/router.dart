@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../auth/screens/health_personnel_login_screen.dart';
 import '../../auth/screens/user_selection_screen.dart';
 import 'route_paths.dart';
 
@@ -12,6 +13,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => UserSelectionScreen());
       case '${RoutePath.user_selection}':
         return MaterialPageRoute(builder: (_) => UserSelectionScreen());
+      case '${RoutePath.health_personnel_login}':
+        return MaterialPageRoute(builder: (_) => HealthPersonalLoginScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

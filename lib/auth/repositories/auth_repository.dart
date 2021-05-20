@@ -40,7 +40,8 @@ class AuthRepository {
       );
       authToken = AuthToken.fromJson(jsonResponse);
     } catch (e) {
-      print(e);
+      print("AuthRepository -> " + e.toString());
+      return null;
     }
     return authToken;
   }
@@ -68,7 +69,7 @@ class AuthRepository {
       jsonResponse = await _apiBaseHelper.post('/logout');
       print(jsonResponse);
     } catch (e) {
-      print(e);
+      print("AuthRepository -> " + e.toString());
       return false;
     }
     return true;
