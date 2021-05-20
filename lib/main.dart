@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'core/routes/router.dart' as appRouter;
 
 void main() {
   runApp(DigitalImmunizationTrackingApp());
@@ -13,7 +14,9 @@ class DigitalImmunizationTrackingApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Text('Hello World!'),
+      initialRoute: '/',
+      onGenerateRoute: (RouteSettings settings) =>
+          appRouter.Router.generateRoute(settings),
     );
   }
 }
