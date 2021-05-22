@@ -74,12 +74,12 @@ class ApiBaseHelper {
       case 201:
         return;
       case 400:
-        throw BadRequestException(_response);
+        throw BadRequestException(_response['message']);
       case 401:
       case 403:
-        throw UnauthorizedException(_response);
+        throw UnauthorizedException(_response['message']);
       case 422:
-        throw InvalidInputException(_response);
+        throw InvalidInputException(_response['errors'], _response['message']);
       case 500:
         throw ApiException('Error with StatusCode: $_code');
     }

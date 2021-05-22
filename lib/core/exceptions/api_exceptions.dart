@@ -11,25 +11,22 @@ class ApiException {
 }
 
 class BadRequestException extends ApiException {
-  BadRequestException(errorResponse, [String message])
-      : super(message ?? errorResponse['message'], 'Invalid Request: ');
+  BadRequestException([String message]) : super(message, 'Invalid Request: ');
 }
 
 class UnauthorizedException extends ApiException {
-  UnauthorizedException(errorResponse, [String message])
-      : super(message ?? errorResponse['message'], 'Unauthorized: ');
+  UnauthorizedException([String message]) : super(message, 'Unauthorized: ');
 }
 
 class FetchDataException extends ApiException {
-  FetchDataException(errorResponse, [String message])
-      : super(message ?? errorResponse['message'],
-            'Error during communication: ');
+  FetchDataException([String message])
+      : super(message, 'Error during communication: ');
 }
 
 class InvalidInputException extends ApiException {
   final errors;
 
-  InvalidInputException(errorRespose, [String message])
-      : this.errors = errorRespose['errors'],
-        super(message ?? errorRespose['message'], 'Invalid Input: ');
+  InvalidInputException(errors, [String message])
+      : this.errors = errors,
+        super(message, 'Invalid Input: ');
 }
