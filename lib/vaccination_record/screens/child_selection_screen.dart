@@ -1,3 +1,4 @@
+import '../../core/routes/route_paths.dart';
 import 'package:flutter/material.dart';
 
 class ChildSelectionScreen extends StatelessWidget {
@@ -67,7 +68,9 @@ class ChildSelectionScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, RoutePath.child_search);
+                    },
                   ),
                   decoration: BoxDecoration(
                     color: Colors.lightBlueAccent,

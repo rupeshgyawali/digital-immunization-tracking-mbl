@@ -4,6 +4,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'auth/repositories/auth_repository.dart';
 import 'core/helpers/api_base_helper.dart';
+import 'vaccination_record/repositories/child_repository.dart';
 
 List<SingleChildWidget> providers = [
   ...independentServices,
@@ -25,5 +26,9 @@ List<SingleChildWidget> dependentServices = [
   ProxyProvider<ApiBaseHelper, AuthRepository>(
     update: (_, apiBaseHelper, __) =>
         AuthRepository(apiBaseHelper: apiBaseHelper),
+  ),
+  ProxyProvider<ApiBaseHelper, ChildRepository>(
+    update: (_, apiBaseHelper, __) =>
+        ChildRepository(apiBaseHelper: apiBaseHelper),
   ),
 ];
