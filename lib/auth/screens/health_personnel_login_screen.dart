@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/models/app_state.dart';
 import '../../core/routes/route_paths.dart';
 import '../providers/health_personnel_login_provider.dart';
 import '../repositories/auth_repository.dart';
@@ -67,7 +68,9 @@ class _HealthPersonalLoginScreenState extends State<HealthPersonalLoginScreen> {
                                     .showSnackBar(SnackBar(
                                   content: const Text('Login Successfull'),
                                 ));
-                                Navigator.pushNamed(
+                                Provider.of<AppState>(context, listen: false)
+                                    .setIsLoggedIn(true);
+                                Navigator.popAndPushNamed(
                                     context, RoutePath.child_selection);
                               } else {
                                 ScaffoldMessenger.of(context)

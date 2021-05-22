@@ -13,7 +13,7 @@ class UserSelectionScreen extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20),
         onPressed: () {
-          Navigator.pushNamed(context, RoutePath.health_personnel_login);
+          Navigator.pushNamed(context, RoutePath.child_selection);
         },
         child: Text(
           'Health Personal',
