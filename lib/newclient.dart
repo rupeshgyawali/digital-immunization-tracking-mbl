@@ -113,10 +113,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince1() {
     for (String key in province1.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province1[key],
         child: Center(
           child: Text(province1[key]),
         ),
-        value: province1[key],
       ));
     }
   }
@@ -124,10 +124,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince2() {
     for (String key in province2.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province2[key],
         child: Center(
           child: Text(province2[key]),
         ),
-        value: province2[key],
       ));
     }
   }
@@ -135,10 +135,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince3() {
     for (String key in province3.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province3[key],
         child: Center(
           child: Text(province3[key]),
         ),
-        value: province3[key],
       ));
     }
   }
@@ -146,10 +146,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince4() {
     for (String key in province4.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province4[key],
         child: Center(
           child: Text(province4[key]),
         ),
-        value: province4[key],
       ));
     }
   }
@@ -157,10 +157,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince5() {
     for (String key in province5.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province5[key],
         child: Center(
           child: Text(province5[key]),
         ),
-        value: province5[key],
       ));
     }
   }
@@ -168,10 +168,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince6() {
     for (String key in province6.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province6[key],
         child: Center(
           child: Text(province6[key]),
         ),
-        value: province6[key],
       ));
     }
   }
@@ -179,10 +179,10 @@ class _NewClientState extends State<NewClient> {
   void populateprovince7() {
     for (String key in province7.keys) {
       menuitems.add(DropdownMenuItem<String>(
+        value: province7[key],
         child: Center(
           child: Text(province7[key]),
         ),
-        value: province7[key],
       ));
     }
   }
@@ -233,13 +233,9 @@ class _NewClientState extends State<NewClient> {
       style: myStyle,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Child Name",
-          hintStyle: TextStyle(
-            fontSize: 20.0,
-          ),
           icon: Icon(Icons.child_care_outlined),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final fathernameField = TextField(
       onChanged: (val) {
@@ -250,13 +246,9 @@ class _NewClientState extends State<NewClient> {
       style: myStyle,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Father Name",
-          hintStyle: TextStyle(
-            fontSize: 20.0,
-          ),
           icon: Icon(Icons.person_outline_outlined),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final mothernameField = TextField(
       onChanged: (val) {
@@ -267,13 +259,9 @@ class _NewClientState extends State<NewClient> {
       style: myStyle,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Mother Name",
-          hintStyle: TextStyle(
-            fontSize: 20.0,
-          ),
           icon: Icon(Icons.person_outline_outlined),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final parentphonenumberField = TextField(
       onChanged: (val) {
@@ -284,176 +272,224 @@ class _NewClientState extends State<NewClient> {
       style: myStyle,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Parent Phone Number",
-          hintStyle: TextStyle(
-            fontSize: 20.0,
-          ),
           icon: Icon(Icons.phone_android_outlined),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     return Scaffold(
-      body: Center(
-        child: Container(
-            color: Colors.white,
-            child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'CHILD REGISTER',
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    childnameField,
-                    SizedBox(
-                      height: 10,
-                    ),
-                    fathernameField,
-                    SizedBox(
-                      height: 10,
-                    ),
-                    mothernameField,
-                    SizedBox(
-                      height: 10,
-                    ),
-                    parentphonenumberField,
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Align(
-                        alignment: FractionalOffset(0.03, 0.0),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+              color: Colors.white,
+              child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "CHILD REGISTER",
+                        style: TextStyle(
+                            color: Colors.lightBlueAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.22, 0.0),
                         child: Container(
                           child: Text(
-                            "ADDRESS",
+                            "Child Name",
                             style: TextStyle(
-                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 23),
+                                fontSize: 18,
+                                color: Colors.lightBlueAccent),
                           ),
-                        )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: FractionalOffset(0.03, 0.0),
-                      child: Container(
-                          padding: const EdgeInsets.only(
-                            left: 6.0,
-                            right: 0.0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      childnameField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.22, 0.0),
+                        child: Container(
+                          child: Text(
+                            "Father Name",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.lightBlueAccent),
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlueAccent,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      fathernameField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.22, 0.0),
+                        child: Container(
+                          child: Text(
+                            "Mother Name",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.lightBlueAccent),
                           ),
-                          child: DropdownButtonHideUnderline(
-                              child: Column(
-                            children: <Widget>[
-                              DropdownButton<String>(
-                                items: [
-                                  DropdownMenuItem<String>(
-                                    value: "Province 1",
-                                    child: Center(
-                                      child: Text("Province 1"),
-                                    ),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: "Province 2",
-                                    child: Center(
-                                      child: Text("Province 2"),
-                                    ),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: "Province 3",
-                                    child: Center(
-                                      child: Text("Province 3"),
-                                    ),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: "Province 4",
-                                    child: Center(
-                                      child: Text("Province 4"),
-                                    ),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: "Province 5",
-                                    child: Center(
-                                      child: Text("Province 5"),
-                                    ),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: "Province 6",
-                                    child: Center(
-                                      child: Text("Province 6"),
-                                    ),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: "Province 7",
-                                    child: Center(
-                                      child: Text("Province 7"),
-                                    ),
-                                  ),
-                                ],
-                                onChanged: (_value) => selected(_value),
-                                hint: Text('Province',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                              ),
-                              Text(
-                                "$value",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ))),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: FractionalOffset(0.03, 0.0),
-                      child: Container(
-                          padding: const EdgeInsets.only(
-                            left: 6.0,
-                            right: 0.0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      mothernameField,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.22, 0.0),
+                        child: Container(
+                          child: Text(
+                            "Parent Phone Number",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.lightBlueAccent),
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlueAccent,
-                          ),
-                          child: DropdownButtonHideUnderline(
-                              child: Column(
-                            children: <Widget>[
-                              DropdownButton<String>(
-                                items: menuitems,
-                                onChanged: disableddropdown
-                                    ? null
-                                    : (_value) => secondselected(_value),
-                                hint: Text('District',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                              ),
-                              Text(
-                                "$value",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ))),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ))),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      parentphonenumberField,
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Align(
+                          alignment: FractionalOffset(0.03, 0.0),
+                          child: Container(
+                            child: Text(
+                              "ADDRESS",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 23),
+                            ),
+                          )),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.03, 0.0),
+                        child: Container(
+                            padding: const EdgeInsets.only(
+                              left: 6.0,
+                              right: 0.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.lightBlueAccent,
+                            ),
+                            child: DropdownButtonHideUnderline(
+                                child: Column(
+                              children: <Widget>[
+                                DropdownButton<String>(
+                                  items: [
+                                    DropdownMenuItem<String>(
+                                      value: "Province 1",
+                                      child: Center(
+                                        child: Text("Province 1"),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: "Province 2",
+                                      child: Center(
+                                        child: Text("Province 2"),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: "Province 3",
+                                      child: Center(
+                                        child: Text("Province 3"),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: "Province 4",
+                                      child: Center(
+                                        child: Text("Province 4"),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: "Province 5",
+                                      child: Center(
+                                        child: Text("Province 5"),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: "Province 6",
+                                      child: Center(
+                                        child: Text("Province 6"),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: "Province 7",
+                                      child: Center(
+                                        child: Text("Province 7"),
+                                      ),
+                                    ),
+                                  ],
+                                  onChanged: (_value) => selected(_value),
+                                  hint: Text('Province',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18)),
+                                ),
+                              ],
+                            ))),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.03, 0.0),
+                        child: Container(
+                            padding: const EdgeInsets.only(
+                              left: 6.0,
+                              right: 0.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.lightBlueAccent,
+                            ),
+                            child: DropdownButtonHideUnderline(
+                                child: Column(
+                              children: <Widget>[
+                                DropdownButton<String>(
+                                  items: menuitems,
+                                  onChanged: disableddropdown
+                                      ? null
+                                      : (_value) => secondselected(_value),
+                                  hint: Text('District',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18)),
+                                ),
+                                Text(
+                                  "$value",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ))),
+                      ),
+                    ],
+                  ))),
+        ),
       ),
     );
   }

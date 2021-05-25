@@ -22,13 +22,9 @@ class _ExistClientState extends State<ExistClient> {
       style: myStyle,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Phone Number",
-          hintStyle: TextStyle(
-            fontSize: 20.0,
-          ),
           icon: Icon(Icons.phone_android_outlined),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final dateofbirthfield = TextField(
       onChanged: (val) {
@@ -39,17 +35,12 @@ class _ExistClientState extends State<ExistClient> {
       style: myStyle,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Date of Birth(DOB)",
-          hintStyle: TextStyle(
-            fontSize: 20.0,
-          ),
           icon: Icon(Icons.calendar_today_outlined),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final myLoginButton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(50.0),
       color: Colors.lightBlueAccent,
       child: MaterialButton(
         minWidth: 250,
@@ -69,34 +60,58 @@ class _ExistClientState extends State<ExistClient> {
       ),
     );
     return Scaffold(
-        body: Center(
-            child: Container(
-                color: Colors.white,
-                child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 300,
+        body: SingleChildScrollView(
+      child: Center(
+          child: Container(
+              color: Colors.white,
+              child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 200,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.22, 0.0),
+                        child: Container(
+                          child: Text(
+                            "Phone Number",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.lightBlueAccent),
+                          ),
                         ),
-                        Text(
-                          "Enter the Phone No. and DOB of the child",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      phonenumberfield,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: FractionalOffset(0.25, 0.0),
+                        child: Container(
+                          child: Text(
+                            "Date of Birth(DOB)",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.lightBlueAccent),
+                          ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        phonenumberfield,
-                        SizedBox(
-                          height: 10,
-                        ),
-                        dateofbirthfield,
-                        SizedBox(
-                          height: 20,
-                        ),
-                        myLoginButton,
-                      ],
-                    )))));
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      dateofbirthfield,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      myLoginButton,
+                    ],
+                  )))),
+    ));
   }
 }

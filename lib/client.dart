@@ -25,6 +25,7 @@ class _ClientState extends State<Client> {
                   width: (MediaQuery.of(context).size.width),
                   height: 250,
                   child: FloatingActionButton(
+                    backgroundColor: Colors.lightBlueAccent,
                     elevation: 0.0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -57,6 +58,7 @@ class _ClientState extends State<Client> {
                   width: (MediaQuery.of(context).size.width),
                   height: 250,
                   child: FloatingActionButton(
+                    backgroundColor: Colors.lightBlueAccent,
                     elevation: 0.0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

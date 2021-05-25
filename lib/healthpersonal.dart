@@ -23,10 +23,12 @@ class _HealthPersonalState extends State<HealthPersonal> {
       textAlign: TextAlign.center,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Email",
-          hintStyle: TextStyle(fontSize: 20.0),
+          prefixIcon: Icon(
+            Icons.email_outlined,
+            color: Colors.blueGrey[100],
+          ),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final passwordField = TextField(
       onChanged: (val) {
@@ -39,18 +41,19 @@ class _HealthPersonalState extends State<HealthPersonal> {
       textAlign: TextAlign.center,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
-          hintText: "Password",
-          hintStyle: TextStyle(fontSize: 20.0),
+          prefixIcon: Icon(
+            Icons.lock,
+            color: Colors.blueGrey[100],
+          ),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final myLoginButton = Material(
       elevation: 5.0,
-      borderRadius: BorderRadius.circular(50.0),
       color: Colors.lightBlueAccent,
       child: MaterialButton(
-        minWidth: 250,
-        padding: EdgeInsets.all(10),
+        minWidth: 200,
+        padding: EdgeInsets.all(13),
         onPressed: () {
           if (email == "root@gmail.com" && password == "root") {
             Navigator.push(
@@ -61,40 +64,75 @@ class _HealthPersonalState extends State<HealthPersonal> {
         },
         child: Text(
           'Login',
-          style: TextStyle(color: Colors.white, fontSize: 20),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
         ),
       ),
     );
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: [
-                ClipPath(
-                  clipper: MyClipper(),
-                  child: Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlueAccent,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  ClipPath(
+                    clipper: MyClipper(),
+                    child: Container(
+                      height: 170,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlueAccent,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 100,
-                ),
-                emailField,
-                SizedBox(
-                  height: 20,
-                ),
-                passwordField,
-                SizedBox(
-                  height: 20,
-                ),
-                myLoginButton,
-              ],
+                  SizedBox(
+                    height: 90,
+                  ),
+                  Align(
+                    alignment: FractionalOffset(0.04, 0.0),
+                    child: Container(
+                      child: Text(
+                        "Email Address",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.lightBlueAccent),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  emailField,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Align(
+                    alignment: FractionalOffset(0.04, 0.0),
+                    child: Container(
+                      child: Text(
+                        "Password",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.lightBlueAccent),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  passwordField,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  myLoginButton,
+                ],
+              ),
             ),
           ),
         ),
@@ -108,14 +146,18 @@ class MyClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     var path = Path();
     path.lineTo(0, size.height - 30);
-    var firststartpoint = Offset(size.width / 4, size.height);
-    var firstendpoint = Offset(size.width / 4 - size.width / 8, size.height);
+    var firststartpoint = Offset(size.width / 10, size.height);
+    var firstendpoint = Offset(size.width / 8 + size.width / 10, size.height);
     path.quadraticBezierTo(firststartpoint.dx, firststartpoint.dy,
         firstendpoint.dx, firstendpoint.dy);
     var secondstartpoint = Offset(size.width / 2, size.height);
     var secondendpoint = Offset(size.width, size.height - 110);
     path.quadraticBezierTo(secondstartpoint.dx, secondstartpoint.dy,
         secondendpoint.dx, secondendpoint.dy);
+    var thirdstartpoint = Offset(size.width / 2, size.height);
+    var thirdendpoint = Offset(size.width, size.height - 110);
+    path.quadraticBezierTo(thirdstartpoint.dx, thirdstartpoint.dy,
+        thirdendpoint.dx, thirdendpoint.dy);
 
     path.lineTo(size.width, 0);
 
