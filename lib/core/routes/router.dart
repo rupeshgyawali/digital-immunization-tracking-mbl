@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../auth/screens/health_personnel_login_screen.dart';
 import '../../auth/screens/user_selection_screen.dart';
+import '../../vaccination_record/screens/child_registration_screen.dart';
 import '../../vaccination_record/screens/child_search_screen.dart';
 import '../../vaccination_record/screens/child_selection_screen.dart';
 import '../models/app_state.dart';
@@ -26,6 +27,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => ChildSelectionScreen());
       case '${RoutePath.child_search}':
         return MaterialPageRoute(builder: (_) => ChildSearchScreen());
+      case '${RoutePath.child_registration}':
+        return MaterialPageRoute(builder: (_) => ChildRegistrationScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

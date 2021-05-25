@@ -22,4 +22,17 @@ class ChildRepository {
     }
     return child;
   }
+
+  Future<Child> createChild(Child child) async {
+    Child _newChild;
+    try {
+      String jsonResponse =
+          await _apiBaseHelper.post('/children', data: child.toJson());
+      print(jsonResponse);
+      _newChild = Child.fromJson(jsonResponse);
+    } catch (e) {
+      print("ChildRepository -> " + e.toString());
+    }
+    return _newChild;
+  }
 }
