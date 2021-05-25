@@ -11,7 +11,7 @@ class ChildSearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ChildSearchProvider(
-        childRepository: Provider.of<ChildRepository>(context, listen: false),
+        childRepository: context.read<ChildRepository>(),
       ),
       child: Consumer<ChildSearchProvider>(
         builder: (context, provider, child) => Scaffold(
@@ -41,14 +41,14 @@ class ChildSearchScreen extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    !Provider.of<ChildSearchProvider>(context).isLoading
+                    !context.watch<ChildSearchProvider>().isLoading
                         ? LoginButton(onPressed: () async {
                             FocusManager.instance.primaryFocus.unfocus();
-                            await Provider.of<ChildSearchProvider>(context,
-                                    listen: false)
+                            await context
+                                .read<ChildSearchProvider>()
                                 .searchChild();
-                            if (Provider.of<ChildSearchProvider>(context,
-                                        listen: false)
+                            if (context
+                                    .read<ChildSearchProvider>()
                                     .searchSuccess ==
                                 true) {
                               ScaffoldMessenger.of(context)
@@ -81,8 +81,7 @@ class PhoneNumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (val) {
-        Provider.of<ChildSearchProvider>(context, listen: false)
-            .setPhoneNo(val);
+        context.read<ChildSearchProvider>().setPhoneNo(val);
       },
       style: myStyle,
       decoration: InputDecoration(
@@ -105,7 +104,7 @@ class DobField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (val) {
-        Provider.of<ChildSearchProvider>(context, listen: false).setDob(val);
+        context.read<ChildSearchProvider>().setDob(val);
       },
       style: myStyle,
       decoration: InputDecoration(

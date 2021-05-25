@@ -19,7 +19,7 @@ class _HealthPersonalLoginScreenState extends State<HealthPersonalLoginScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => HealthPersonnelLoginProvider(
-        authRepository: Provider.of<AuthRepository>(context, listen: false),
+        authRepository: context.read<AuthRepository>(),
       ),
       child: Consumer<HealthPersonnelLoginProvider>(
         builder: (context, provider, child) => Scaffold(
@@ -50,26 +50,22 @@ class _HealthPersonalLoginScreenState extends State<HealthPersonalLoginScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    !Provider.of<HealthPersonnelLoginProvider>(context)
-                            .isLoading
+                    !context.watch<HealthPersonnelLoginProvider>().isLoading
                         ? LoginButton(
                             onPressed: () async {
                               FocusManager.instance.primaryFocus.unfocus();
-                              await Provider.of<HealthPersonnelLoginProvider>(
-                                      context,
-                                      listen: false)
+                              await context
+                                  .read<HealthPersonnelLoginProvider>()
                                   .login();
-                              if (Provider.of<HealthPersonnelLoginProvider>(
-                                          context,
-                                          listen: false)
+                              if (context
+                                      .read<HealthPersonnelLoginProvider>()
                                       .loginSuccess ==
                                   true) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: const Text('Login Successfull'),
                                 ));
-                                Provider.of<AppState>(context, listen: false)
-                                    .setIsLoggedIn(true);
+                                context.read<AppState>().setIsLoggedIn(true);
                                 Navigator.popAndPushNamed(
                                     context, RoutePath.child_selection);
                               } else {
@@ -97,8 +93,7 @@ class EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (val) {
-        Provider.of<HealthPersonnelLoginProvider>(context, listen: false)
-            .setEmail(val);
+        context.read<HealthPersonnelLoginProvider>().setEmail(val);
       },
       style: myStyle,
       textAlign: TextAlign.center,
@@ -117,8 +112,7 @@ class PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (val) {
-        Provider.of<HealthPersonnelLoginProvider>(context, listen: false)
-            .setPassword(val);
+        context.read<HealthPersonnelLoginProvider>().setPassword(val);
       },
       obscureText: true,
       style: myStyle,
