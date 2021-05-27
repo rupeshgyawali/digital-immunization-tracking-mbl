@@ -19,6 +19,7 @@ class ApiBaseHelper {
   Future<Map<String, String>> _prepareHeaders() async {
     String bearerToken = await _getAuthTokenFromLocalCache();
     Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
       'Authorization': 'Bearer $bearerToken'
     };
@@ -54,7 +55,7 @@ class ApiBaseHelper {
     try {
       response = await client.post(
         Uri.parse(baseUrl + url),
-        body: data,
+        body: data is String ? data : json.encode(data),
         headers: headers,
       );
       _checkResponseStatus(response);
