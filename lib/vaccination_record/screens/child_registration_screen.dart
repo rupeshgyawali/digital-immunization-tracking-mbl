@@ -44,86 +44,7 @@ class ChildRegistrationScreen extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      DitTextField(
-                        label: "Child Name",
-                        icon: Icon(Icons.child_care_outlined),
-                        onChanged:
-                            context.read<ChildRegistrationProvider>().setName,
-                      ),
-                      DitTextField(
-                        label: "Date of Birth",
-                        icon: Icon(Icons.person_outline_outlined),
-                        onChanged:
-                            context.read<ChildRegistrationProvider>().setDob,
-                      ),
-                      DitTextField(
-                        label: "Birth Place",
-                        icon: Icon(Icons.person_outline_outlined),
-                        onChanged: context
-                            .read<ChildRegistrationProvider>()
-                            .setBirthPlace,
-                      ),
-                      DitTextField(
-                        label: "Father Name",
-                        icon: Icon(Icons.person_outline_outlined),
-                        onChanged: context
-                            .read<ChildRegistrationProvider>()
-                            .setFatherName,
-                      ),
-                      DitTextField(
-                        label: "Mother Name",
-                        icon: Icon(Icons.person_outline_outlined),
-                        onChanged: context
-                            .read<ChildRegistrationProvider>()
-                            .setMotherName,
-                      ),
-                      DitTextField(
-                        label: "Parent Phone Number",
-                        icon: Icon(Icons.phone_android_outlined),
-                        onChanged: context
-                            .read<ChildRegistrationProvider>()
-                            .setFatherPhn,
-                      ),
-                      AddressField(),
-                      SizedBox(height: 10),
-                      !context.watch<ChildRegistrationProvider>().isLoading
-                          ? Align(
-                              alignment: Alignment.center,
-                              child: ElevatedButton(
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                onPressed: () async {
-                                  FocusManager.instance.primaryFocus.unfocus();
-                                  await context
-                                      .read<ChildRegistrationProvider>()
-                                      .registerChild();
-                                  if (context
-                                          .read<ChildRegistrationProvider>()
-                                          .registrationSuccess ==
-                                      true) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: const Text(
-                                            "Registration Successfull"),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            const Text("Registration Failed"),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                            )
-                          : Container(
-                              child: CircularProgressIndicator(),
-                            ),
+                      ChildRegistrationForm(),
                     ],
                   ),
                 ),
@@ -131,6 +52,94 @@ class ChildRegistrationScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ChildRegistrationForm extends StatefulWidget {
+  @override
+  _ChildRegistrationFormState createState() => _ChildRegistrationFormState();
+}
+
+class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DitTextFormField(
+            label: "Child Name",
+            icon: Icon(Icons.child_care_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setName,
+          ),
+          DitTextFormField(
+            label: "Date of Birth",
+            icon: Icon(Icons.person_outline_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setDob,
+          ),
+          DitTextFormField(
+            label: "Birth Place",
+            icon: Icon(Icons.person_outline_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setBirthPlace,
+          ),
+          DitTextFormField(
+            label: "Father Name",
+            icon: Icon(Icons.person_outline_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setFatherName,
+          ),
+          DitTextFormField(
+            label: "Mother Name",
+            icon: Icon(Icons.person_outline_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setMotherName,
+          ),
+          DitTextFormField(
+            label: "Parent Phone Number",
+            icon: Icon(Icons.phone_android_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setFatherPhn,
+          ),
+          AddressField(),
+          SizedBox(height: 10),
+          !context.watch<ChildRegistrationProvider>().isLoading
+              ? Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    child: Text(
+                      'Register',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () async {
+                      FocusManager.instance.primaryFocus.unfocus();
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+                        await context
+                            .read<ChildRegistrationProvider>()
+                            .registerChild();
+                        if (context
+                                .read<ChildRegistrationProvider>()
+                                .registrationSuccess ==
+                            true) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text("Registration Successfull"),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: const Text("Registration Failed")),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                )
+              : Container(child: CircularProgressIndicator()),
+        ],
       ),
     );
   }
@@ -178,77 +187,83 @@ class _AddressFieldState extends State<AddressField> {
         ),
         Row(
           children: [
-            Container(
-              padding: const EdgeInsets.only(
-                left: 6.0,
-                right: 0.0,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  hint: Text('Choose your province'),
-                  value: selectedProvinceNo != null
-                      ? address[selectedProvinceNo - 1][0]
-                      : null,
-                  items: address != null
-                      ? address
-                          .map(
-                            (province) => DropdownMenuItem<String>(
-                              child: Text(province[0]),
-                              value: province[0],
-                            ),
-                          )
-                          .toList()
-                      : null,
-                  onChanged: (value) {
-                    address.asMap().forEach((i, element) {
-                      if (element.indexOf(value) != -1) {
-                        setState(() {
-                          selectedProvinceNo = i + 1;
-                          selectedDistrict = null;
-                        });
-                      }
-                    });
-                  },
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: 6.0,
+                  right: 0.0,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButtonFormField<String>(
+                    hint: Text('Choose your province'),
+                    value: selectedProvinceNo != null
+                        ? address[selectedProvinceNo - 1][0]
+                        : null,
+                    items: address != null
+                        ? address
+                            .map(
+                              (province) => DropdownMenuItem<String>(
+                                child: Text(province[0]),
+                                value: province[0],
+                              ),
+                            )
+                            .toList()
+                        : null,
+                    onChanged: (value) {
+                      address.asMap().forEach((i, element) {
+                        if (element.indexOf(value) != -1) {
+                          setState(() {
+                            selectedProvinceNo = i + 1;
+                            selectedDistrict = null;
+                          });
+                        }
+                      });
+                    },
+                  ),
                 ),
               ),
             ),
             SizedBox(width: 10.0),
-            Container(
-              padding: const EdgeInsets.only(
-                left: 6.0,
-                right: 0.0,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  hint: Text('Choose your district'),
-                  value: selectedDistrict,
-                  items: selectedProvinceNo != null
-                      ? address[selectedProvinceNo - 1]
-                          .sublist(1)
-                          .map(
-                            (e) => DropdownMenuItem<String>(
-                              child: Text(e),
-                              value: e,
-                            ),
-                          )
-                          .toList()
-                      : null,
-                  onChanged: (value) {
-                    context
-                        .read<ChildRegistrationProvider>()
-                        .setTemporaryAddr(value);
-                    setState(() {
-                      selectedDistrict = value;
-                    });
-                  },
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: 6.0,
+                  right: 0.0,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButtonFormField<String>(
+                    hint: Text('Choose your district'),
+                    value: selectedDistrict,
+                    items: selectedProvinceNo != null
+                        ? address[selectedProvinceNo - 1]
+                            .sublist(1)
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                child: Text(e),
+                                value: e,
+                              ),
+                            )
+                            .toList()
+                        : null,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDistrict = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      context
+                          .read<ChildRegistrationProvider>()
+                          .setTemporaryAddr(value);
+                    },
+                  ),
                 ),
               ),
             ),
