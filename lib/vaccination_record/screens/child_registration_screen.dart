@@ -2,6 +2,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/widgets/text_field.dart';
@@ -76,31 +77,41 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
             label: "Child Name",
             icon: Icon(Icons.child_care_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setName,
+            validator: RequiredValidator(errorText: 'This field is required'),
           ),
           DitTextFormField(
             label: "Date of Birth",
             icon: Icon(Icons.person_outline_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setDob,
+            validator: MultiValidator([
+              RequiredValidator(errorText: 'This field is required'),
+              DateValidator('y/M/d',
+                  errorText: 'Date must be in Year/Month/Day format'),
+            ]),
           ),
           DitTextFormField(
             label: "Birth Place",
             icon: Icon(Icons.person_outline_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setBirthPlace,
+            validator: RequiredValidator(errorText: 'This field is required'),
           ),
           DitTextFormField(
             label: "Father Name",
             icon: Icon(Icons.person_outline_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setFatherName,
+            validator: RequiredValidator(errorText: 'This field is required'),
           ),
           DitTextFormField(
             label: "Mother Name",
             icon: Icon(Icons.person_outline_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setMotherName,
+            validator: RequiredValidator(errorText: 'This field is required'),
           ),
           DitTextFormField(
             label: "Parent Phone Number",
             icon: Icon(Icons.phone_android_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setFatherPhn,
+            validator: RequiredValidator(errorText: 'This field is required'),
           ),
           AddressField(),
           SizedBox(height: 10),
