@@ -56,6 +56,7 @@ class ChildSearchForm extends StatefulWidget {
 
 class _ChildSearchFormState extends State<ChildSearchForm> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _dateFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +73,7 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
           ),
           DitTextFormField(
             label: 'Date of Birth',
+            controller: _dateFieldController,
             icon: Icon(Icons.calendar_today_outlined),
             onSaved: context.read<ChildSearchProvider>().setDob,
             validator: MultiValidator([
@@ -79,6 +81,9 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
               DateValidator('y/M/d',
                   errorText: 'Date must be in Year/Month/Day format'),
             ]),
+            onTap: () {
+              _selectDate(context);
+            },
           ),
           !context.watch<ChildSearchProvider>().isLoading
               ? LoginButton(onPressed: () async {
@@ -103,6 +108,24 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
               : Container(child: CircularProgressIndicator()),
         ],
       ),
+    );
+  }
+
+  _selectDate(BuildContext context) async {
+    FocusManager.instance.primaryFocus.unfocus();
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2010),
+            lastDate: DateTime.now())
+        .then(
+      (value) => {
+        if (value != null)
+          {
+            _dateFieldController.text =
+                value.toString().split(' ')[0].replaceAll(RegExp(r'-'), '/')
+          }
+      },
     );
   }
 }

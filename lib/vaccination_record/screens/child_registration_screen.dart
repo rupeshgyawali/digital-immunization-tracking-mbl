@@ -65,6 +65,7 @@ class ChildRegistrationForm extends StatefulWidget {
 
 class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _dateFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +82,7 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
           ),
           DitTextFormField(
             label: "Date of Birth",
+            controller: _dateFieldController,
             icon: Icon(Icons.person_outline_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setDob,
             validator: MultiValidator([
@@ -88,6 +90,9 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
               DateValidator('y/M/d',
                   errorText: 'Date must be in Year/Month/Day format'),
             ]),
+            onTap: () {
+              _selectDate(context);
+            },
           ),
           DitTextFormField(
             label: "Birth Place",
@@ -152,6 +157,24 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
               : Container(child: CircularProgressIndicator()),
         ],
       ),
+    );
+  }
+
+  _selectDate(BuildContext context) async {
+    FocusManager.instance.primaryFocus.unfocus();
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2010),
+            lastDate: DateTime.now())
+        .then(
+      (value) => {
+        if (value != null)
+          {
+            _dateFieldController.text =
+                value.toString().split(' ')[0].replaceAll(RegExp(r'-'), '/')
+          }
+      },
     );
   }
 }
