@@ -72,6 +72,14 @@ class _HealthPersonnelLoginFormState extends State<HealthPersonnelLoginForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          context.watch<HealthPersonnelLoginProvider>().hasError
+              ? Center(
+                  child: Text(
+                    context.watch<HealthPersonnelLoginProvider>().errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              : Center(),
           DitTextFormField(
             label: 'Email',
             onSaved: context.read<HealthPersonnelLoginProvider>().setEmail,

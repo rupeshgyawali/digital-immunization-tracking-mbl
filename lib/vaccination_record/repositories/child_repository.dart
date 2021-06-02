@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../core/exceptions/api_exceptions.dart';
 import '../../core/helpers/api_base_helper.dart';
 import '../models/child_model.dart';
 
@@ -17,6 +18,8 @@ class ChildRepository {
           await _apiBaseHelper.get('/children?phoneNo=$phoneNo&dob=$dob');
       print(jsonResponse);
       child = Child.fromJson(jsonResponse);
+    } on ApiException {
+      rethrow;
     } catch (e) {
       print("ChildRepository -> " + e.toString());
     }
@@ -30,6 +33,8 @@ class ChildRepository {
           await _apiBaseHelper.post('/children', data: child.toJson());
       print(jsonResponse);
       _newChild = Child.fromJson(jsonResponse);
+    } on ApiException {
+      rethrow;
     } catch (e) {
       print("ChildRepository -> " + e.toString());
     }

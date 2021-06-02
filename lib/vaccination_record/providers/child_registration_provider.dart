@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../core/exceptions/api_exceptions.dart';
 import '../models/child_model.dart';
 import '../repositories/child_repository.dart';
 
@@ -17,6 +18,9 @@ class ChildRegistrationProvider extends ChangeNotifier {
   bool _registrationSuccess;
 
   final ChildRepository _childRepo;
+  bool _hasError = false;
+  Map _errors = {};
+  String _errorMessage = '';
 
   ChildRegistrationProvider({
     @required ChildRepository childRepository,
@@ -34,6 +38,9 @@ class ChildRegistrationProvider extends ChangeNotifier {
   String get permanentAddr => _permanentAddr;
   bool get isLoading => _isLoading;
   bool get registrationSuccess => _registrationSuccess;
+  bool get hasError => _hasError;
+  String get errorMessage => _errorMessage;
+  Map get errors => _errors;
 
   void _setIsLoading(bool isLoading) {
     _isLoading = isLoading;
@@ -80,6 +87,9 @@ class ChildRegistrationProvider extends ChangeNotifier {
     _setIsLoading(true);
     try {
       _registrationSuccess = false;
+      _hasError = false;
+      _errorMessage = '';
+      _errors = {};
       Child child = await _childRepo.createChild(Child(
         name: _name,
         dob: _dob,
@@ -92,6 +102,12 @@ class ChildRegistrationProvider extends ChangeNotifier {
         permanentAddr: _permanentAddr,
       ));
       _registrationSuccess = child == null ? false : true;
+    } on ApiException catch (e) {
+      _hasError = true;
+      _errorMessage = e.message;
+      if (e is InvalidInputException) {
+        _errors = e.errors;
+      }
     } catch (e) {
       print("ChildRegisterProvider -> " + e.toString());
     } finally {

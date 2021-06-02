@@ -65,6 +65,14 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          context.watch<ChildSearchProvider>().hasError
+              ? Center(
+                  child: Text(
+                    context.watch<ChildSearchProvider>().errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              : Center(),
           DitTextFormField(
             label: 'Phone Number',
             icon: Icon(Icons.phone_android_outlined),

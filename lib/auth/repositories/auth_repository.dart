@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/exceptions/api_exceptions.dart';
 import '../../core/helpers/api_base_helper.dart';
 import '../models/auth_token_model.dart';
 
@@ -39,6 +40,8 @@ class AuthRepository {
         data: {'email': email, 'password': password},
       );
       authToken = AuthToken.fromJson(jsonResponse);
+    } on ApiException {
+      rethrow;
     } catch (e) {
       print("AuthRepository -> " + e.toString());
       return null;
@@ -68,6 +71,8 @@ class AuthRepository {
     try {
       jsonResponse = await _apiBaseHelper.post('/logout');
       print(jsonResponse);
+    } on ApiException {
+      rethrow;
     } catch (e) {
       print("AuthRepository -> " + e.toString());
       return false;

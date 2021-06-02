@@ -74,6 +74,14 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          context.watch<ChildRegistrationProvider>().hasError
+              ? Center(
+                  child: Text(
+                    context.watch<ChildRegistrationProvider>().errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              : Center(),
           DitTextFormField(
             label: "Child Name",
             icon: Icon(Icons.child_care_outlined),
