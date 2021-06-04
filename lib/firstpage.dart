@@ -15,7 +15,7 @@ class _FirstPageState extends State<FirstPage> {
       borderRadius: BorderRadius.circular(10.0),
       color: Colors.white,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: 300,
         padding: EdgeInsets.all(20),
         onPressed: () {
           Navigator.push(context,
@@ -35,7 +35,7 @@ class _FirstPageState extends State<FirstPage> {
       borderRadius: BorderRadius.circular(10.0),
       color: Colors.white,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: 300,
         padding: EdgeInsets.all(20),
         onPressed: () {
           Navigator.push(
@@ -52,17 +52,15 @@ class _FirstPageState extends State<FirstPage> {
     );
 
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Center(
-          child: Container(
-              color: Colors.white,
-              child: Padding(
-                  padding: EdgeInsets.all(20),
+      body: SingleChildScrollView(
+          child: Center(
+              child: Container(
+                  color: Colors.white,
                   child: Column(
                     children: [
                       Container(
                         width: (MediaQuery.of(context).size.width),
-                        height: 300,
+                        height: 400,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.cover,
@@ -74,7 +72,7 @@ class _FirstPageState extends State<FirstPage> {
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(30.0),
                               bottomRight: Radius.circular(30.0)),
-                          color: Colors.lightBlueAccent,
+                          color: Colors.lightBlue[200],
                         ),
                         child: SizedBox(
                           child: Text(
@@ -108,6 +106,6 @@ class _FirstPageState extends State<FirstPage> {
                       ),
                     ],
                   )))),
-    ));
+    );
   }
 }

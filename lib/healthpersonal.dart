@@ -1,7 +1,10 @@
+import 'package:digital_immunization_tracking/child.dart';
 import 'package:digital_immunization_tracking/client.dart';
 import 'package:flutter/material.dart';
 
-TextStyle myStyle = TextStyle(fontSize: 25);
+TextStyle myStyle = TextStyle(
+  fontSize: 25,
+);
 
 class HealthPersonal extends StatefulWidget {
   @override
@@ -20,12 +23,20 @@ class _HealthPersonalState extends State<HealthPersonal> {
         });
       },
       style: myStyle,
-      textAlign: TextAlign.center,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10),
+          hintText: "Email",
+          labelText: "Email",
+          hintStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.blueGrey[100]),
+          labelStyle: TextStyle(
+            fontSize: 28,
+          ),
+          contentPadding: EdgeInsets.all(15),
           prefixIcon: Icon(
             Icons.email_outlined,
-            color: Colors.blueGrey[100],
+            color: Colors.black38,
           ),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
@@ -38,19 +49,25 @@ class _HealthPersonalState extends State<HealthPersonal> {
       },
       obscureText: true,
       style: myStyle,
-      textAlign: TextAlign.center,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10),
+          hintText: "Password",
+          labelText: "Password",
+          hintStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.blueGrey[100]),
+          labelStyle: TextStyle(fontSize: 28),
+          contentPadding: EdgeInsets.all(15),
           prefixIcon: Icon(
             Icons.lock,
-            color: Colors.blueGrey[100],
+            color: Colors.black38,
           ),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))),
     );
     final myLoginButton = Material(
       elevation: 5.0,
-      color: Colors.lightBlueAccent,
+      color: Colors.lightBlue[200],
       child: MaterialButton(
         minWidth: 200,
         padding: EdgeInsets.all(13),
@@ -76,63 +93,33 @@ class _HealthPersonalState extends State<HealthPersonal> {
         child: Center(
           child: Container(
             color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  ClipPath(
-                    clipper: MyClipper(),
-                    child: Container(
-                      height: 170,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlueAccent,
-                      ),
+            child: Column(
+              children: [
+                ClipPath(
+                  clipper: MyClipper(),
+                  child: Container(
+                    height: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue[200],
                     ),
                   ),
-                  SizedBox(
-                    height: 90,
-                  ),
-                  Align(
-                    alignment: FractionalOffset(0.04, 0.0),
-                    child: Container(
-                      child: Text(
-                        "Email Address",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.lightBlueAccent),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  emailField,
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: FractionalOffset(0.04, 0.0),
-                    child: Container(
-                      child: Text(
-                        "Password",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.lightBlueAccent),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  passwordField,
-                  SizedBox(
-                    height: 20,
-                  ),
-                  myLoginButton,
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 90,
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                emailField,
+                SizedBox(
+                  height: 20,
+                ),
+                passwordField,
+                SizedBox(
+                  height: 20,
+                ),
+                myLoginButton,
+              ],
             ),
           ),
         ),

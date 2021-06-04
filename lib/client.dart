@@ -25,7 +25,7 @@ class _ClientState extends State<Client> {
                   width: (MediaQuery.of(context).size.width),
                   height: 250,
                   child: FloatingActionButton(
-                    backgroundColor: Colors.lightBlueAccent,
+                    backgroundColor: Colors.lightBlue[200],
                     elevation: 0.0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +49,7 @@ class _ClientState extends State<Client> {
                           MaterialPageRoute(builder: (context) => NewClient()));
                     },
                   ),
-                  decoration: BoxDecoration(color: Colors.lightBlueAccent),
+                  decoration: BoxDecoration(color: Colors.lightBlue[200]),
                 ),
                 SizedBox(
                   height: 60,
@@ -58,7 +58,7 @@ class _ClientState extends State<Client> {
                   width: (MediaQuery.of(context).size.width),
                   height: 250,
                   child: FloatingActionButton(
-                    backgroundColor: Colors.lightBlueAccent,
+                    backgroundColor: Colors.lightBlue[200],
                     elevation: 0.0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +85,7 @@ class _ClientState extends State<Client> {
                     },
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.lightBlueAccent,
+                    color: Colors.lightBlue[200],
                   ),
                 ),
               ],
