@@ -38,7 +38,10 @@ class ChildSelectionScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, RoutePath.child_registration);
+                    },
                   ),
                   decoration: BoxDecoration(color: Colors.lightBlueAccent),
                 ),

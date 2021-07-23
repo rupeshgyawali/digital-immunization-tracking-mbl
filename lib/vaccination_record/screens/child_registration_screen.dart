@@ -121,9 +121,15 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
           DitTextFormField(
-            label: "Parent Phone Number",
+            label: "Father Phone Number",
             icon: Icon(Icons.phone_android_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setFatherPhn,
+            validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+          DitTextFormField(
+            label: "Mother Phone Number",
+            icon: Icon(Icons.phone_android_outlined),
+            onSaved: context.read<ChildRegistrationProvider>().setMotherPhn,
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
           AddressField(),
