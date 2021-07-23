@@ -5,6 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/routes/route_paths.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/child_registration_provider.dart';
 import '../repositories/child_repository.dart';
@@ -157,6 +158,13 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
                             SnackBar(
                               content: const Text("Registration Successfull"),
                             ),
+                          );
+                          Navigator.pushNamed(
+                            context,
+                            RoutePath.child_details,
+                            arguments: context
+                                .read<ChildRegistrationProvider>()
+                                .newChild,
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

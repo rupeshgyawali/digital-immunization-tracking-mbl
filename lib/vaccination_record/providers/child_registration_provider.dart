@@ -14,6 +14,8 @@ class ChildRegistrationProvider extends ChangeNotifier {
   String _motherPhn;
   String _temporaryAddr;
   String _permanentAddr;
+  Child _newChild;
+
   bool _isLoading;
   bool _registrationSuccess;
 
@@ -36,6 +38,7 @@ class ChildRegistrationProvider extends ChangeNotifier {
   String get motherPhn => _motherPhn;
   String get temporaryAddr => _temporaryAddr;
   String get permanentAddr => _permanentAddr;
+  Child get newChild => _newChild;
   bool get isLoading => _isLoading;
   bool get registrationSuccess => _registrationSuccess;
   bool get hasError => _hasError;
@@ -99,9 +102,10 @@ class ChildRegistrationProvider extends ChangeNotifier {
         fatherPhn: _fatherPhn,
         motherPhn: _motherPhn,
         temporaryAddr: _temporaryAddr,
-        permanentAddr: _permanentAddr,
+        permanentAddr: _permanentAddr ?? _temporaryAddr,
       ));
       _registrationSuccess = child == null ? false : true;
+      _newChild = child;
     } on ApiException catch (e) {
       _hasError = true;
       _errorMessage = e.message;
