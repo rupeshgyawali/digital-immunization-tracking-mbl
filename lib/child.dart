@@ -93,7 +93,10 @@ class _ChildState extends State<Child> {
                         height: 20,
                       ),
                       Align(
-                        alignment: FractionalOffset(0.25, 0.0),
+                        alignment: FractionalOffset(
+                          0.25,
+                          0.0,
+                        ),
                         child: Container(
                           child: Text(
                             "Date of Birth(DOB)",

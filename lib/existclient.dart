@@ -46,7 +46,7 @@ class _ExistClientState extends State<ExistClient> {
         minWidth: 250,
         padding: EdgeInsets.all(10),
         onPressed: () {
-          if (phonenumber == "9876543210" && dateofbirth == "2020-12-6") {
+          if (phonenumber == "" && dateofbirth == "") {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ChildDetails1()));
           } else {
