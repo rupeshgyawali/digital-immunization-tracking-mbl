@@ -1,11 +1,10 @@
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/routes/route_paths.dart';
+import '../../core/widgets/local_address_field.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/child_registration_provider.dart';
 import '../repositories/child_repository.dart';
@@ -133,7 +132,22 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
             onSaved: context.read<ChildRegistrationProvider>().setMotherPhn,
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
-          AddressField(),
+          LocalAddressField(
+            label: "Temporary Address",
+            onSaved: (localAddress) {
+              context
+                  .read<ChildRegistrationProvider>()
+                  .setTemporaryAddr(localAddress.toString());
+            },
+          ),
+          LocalAddressField(
+            label: "Permanent Address",
+            onSaved: (localAddress) {
+              context
+                  .read<ChildRegistrationProvider>()
+                  .setPermanentAddr(localAddress.toString());
+            },
+          ),
           SizedBox(height: 10),
           !context.watch<ChildRegistrationProvider>().isLoading
               ? Align(
@@ -197,138 +211,6 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
                 value.toString().split(' ')[0].replaceAll(RegExp(r'-'), '/')
           }
       },
-    );
-  }
-}
-
-class AddressField extends StatefulWidget {
-  @override
-  _AddressFieldState createState() => _AddressFieldState();
-}
-
-class _AddressFieldState extends State<AddressField> {
-  int selectedProvinceNo;
-  String selectedDistrict;
-  List<List<dynamic>> address;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      String csvString = await rootBundle.loadString('assets/address.csv');
-      setState(() {
-        address = CsvToListConverter().convert(csvString);
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          child: Text(
-            "Address",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.lightBlueAccent),
-          ),
-        ),
-        SizedBox(
-          height: 3,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(
-                  left: 6.0,
-                  right: 0.0,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButtonFormField<String>(
-                    hint: Text('Choose your province'),
-                    value: selectedProvinceNo != null
-                        ? address[selectedProvinceNo - 1][0]
-                        : null,
-                    items: address != null
-                        ? address
-                            .map(
-                              (province) => DropdownMenuItem<String>(
-                                child: Text(province[0]),
-                                value: province[0],
-                              ),
-                            )
-                            .toList()
-                        : null,
-                    onChanged: (value) {
-                      address.asMap().forEach((i, element) {
-                        if (element.indexOf(value) != -1) {
-                          setState(() {
-                            selectedProvinceNo = i + 1;
-                            selectedDistrict = null;
-                          });
-                        }
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 10.0),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(
-                  left: 6.0,
-                  right: 0.0,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButtonFormField<String>(
-                    hint: Text('Choose your district'),
-                    value: selectedDistrict,
-                    items: selectedProvinceNo != null
-                        ? address[selectedProvinceNo - 1]
-                            .sublist(1)
-                            .map(
-                              (e) => DropdownMenuItem<String>(
-                                child: Text(e),
-                                value: e,
-                              ),
-                            )
-                            .toList()
-                        : null,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDistrict = value;
-                      });
-                    },
-                    onSaved: (value) {
-                      context
-                          .read<ChildRegistrationProvider>()
-                          .setTemporaryAddr(value);
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-      ],
     );
   }
 }
