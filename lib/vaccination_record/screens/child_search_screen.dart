@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/routes/route_paths.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/child_search_provider.dart';
 import '../repositories/child_repository.dart';
@@ -104,8 +105,12 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Text('Child Found'),
                       ));
-                      // Navigator.pushNamed(
-                      //     context, RoutePath.child_selection);
+                      Navigator.pushNamed(
+                        context,
+                        RoutePath.child_details,
+                        arguments:
+                            context.read<ChildSearchProvider>().foundChild,
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Text('Child Not Found'),

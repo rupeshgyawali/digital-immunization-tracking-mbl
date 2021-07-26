@@ -7,6 +7,7 @@ import '../repositories/child_repository.dart';
 class ChildSearchProvider extends ChangeNotifier {
   String _phoneNo;
   String _dob;
+  Child _foundChild;
   bool _isLoading;
   bool _searchSuccess;
 
@@ -22,6 +23,7 @@ class ChildSearchProvider extends ChangeNotifier {
 
   String get phoneNo => _phoneNo;
   String get dob => _dob;
+  Child get foundChild => _foundChild;
   bool get isLoading => _isLoading;
   bool get searchSuccess => _searchSuccess;
   bool get hasError => _hasError;
@@ -50,6 +52,7 @@ class ChildSearchProvider extends ChangeNotifier {
       _errors = {};
       Child child = await _childRepo.findChild(_phoneNo, _dob);
       _searchSuccess = child == null ? false : true;
+      _foundChild = child;
     } on ApiException catch (e) {
       _hasError = true;
       _errorMessage = e.message;

@@ -15,7 +15,7 @@ class ChildRepository {
     Child child;
     try {
       String jsonResponse =
-          await _apiBaseHelper.get('/children?phoneNo=$phoneNo&dob=$dob');
+          await _apiBaseHelper.get('/children?phone_no=$phoneNo&dob=$dob');
       print(jsonResponse);
       child = Child.fromJson(jsonResponse);
     } on ApiException {
