@@ -1,3 +1,4 @@
+import 'package:digital_immunization_tracking/vaccination_record/repositories/vaccine_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -30,5 +31,9 @@ List<SingleChildWidget> dependentServices = [
   ProxyProvider<ApiBaseHelper, ChildRepository>(
     update: (_, apiBaseHelper, __) =>
         ChildRepository(apiBaseHelper: apiBaseHelper),
+  ),
+  ProxyProvider<ApiBaseHelper, VaccineRepository>(
+    update: (_, apiBaseHelper, __) =>
+        VaccineRepository(apiBaseHelper: apiBaseHelper),
   ),
 ];
