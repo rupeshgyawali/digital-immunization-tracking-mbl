@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/models/app_state.dart';
 import '../models/child_model.dart';
 import '../providers/child_vaccine_record_provider.dart';
 import '../providers/vaccine_provider.dart';
@@ -114,14 +115,18 @@ class ChildVaccineDetails extends StatelessWidget {
               ? Center(child: CircularProgressIndicator())
               : Column(
                   children: <Widget>[
-                    Text(
-                      'Vaccines',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          'Vaccines',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(height: 10.0),
                     ...context
                         .watch<VaccineProvider>()
                         .vaccines
@@ -130,11 +135,17 @@ class ChildVaccineDetails extends StatelessWidget {
                               child: Container(
                                 width: double.infinity,
                                 height: 100.0,
-                                padding: EdgeInsets.all(16.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 50.0),
                                 decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white70,
+                                  border: Border.all(width: 0.0),
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  color: context
+                                          .watch<ChildVaccineRecordProvider>()
+                                          .vaccines
+                                          .contains(vaccine)
+                                      ? Colors.green
+                                      : Colors.white70,
                                 ),
                                 child: Row(
                                   children: [
@@ -159,25 +170,34 @@ class ChildVaccineDetails extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Switch(
-                                      value: context
-                                          .watch<ChildVaccineRecordProvider>()
-                                          .vaccines
-                                          .contains(vaccine),
-                                      onChanged: (value) {
-                                        if (value) {
-                                          context
-                                              .read<
-                                                  ChildVaccineRecordProvider>()
-                                              .addVaccineToChildRecord(vaccine);
-                                        } else {
-                                          context
-                                              .read<
-                                                  ChildVaccineRecordProvider>()
-                                              .removeVaccineFromChildRecord(
-                                                  vaccine);
-                                        }
-                                      },
+                                    Transform.scale(
+                                      scale: 1.5,
+                                      child: Switch(
+                                        activeTrackColor: Colors.green,
+                                        activeColor: Colors.green,
+                                        value: context
+                                            .watch<ChildVaccineRecordProvider>()
+                                            .vaccines
+                                            .contains(vaccine),
+                                        onChanged:
+                                            context.watch<AppState>().isLoggedIn
+                                                ? (value) {
+                                                    if (value) {
+                                                      context
+                                                          .read<
+                                                              ChildVaccineRecordProvider>()
+                                                          .addVaccineToChildRecord(
+                                                              vaccine);
+                                                    } else {
+                                                      context
+                                                          .read<
+                                                              ChildVaccineRecordProvider>()
+                                                          .removeVaccineFromChildRecord(
+                                                              vaccine);
+                                                    }
+                                                  }
+                                                : null,
+                                      ),
                                     ),
                                   ],
                                 ),

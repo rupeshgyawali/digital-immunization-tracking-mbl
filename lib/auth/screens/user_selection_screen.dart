@@ -32,8 +32,7 @@ class UserSelectionScreen extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20),
         onPressed: () {
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => Child()));
+          Navigator.pushNamed(context, RoutePath.child_search);
         },
         child: Text(
           'Child',
