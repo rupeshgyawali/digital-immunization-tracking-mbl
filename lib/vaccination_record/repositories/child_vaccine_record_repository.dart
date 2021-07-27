@@ -30,4 +30,35 @@ class ChildVaccineRecordRepository {
     }
     return vaccines;
   }
+
+  Future<bool> addVaccineToChildRecord(Child child, Vaccine vaccine) async {
+    try {
+      String jsonResponse = await _apiBaseHelper
+          .post('/children/${child.id}/vaccines/${vaccine.id}');
+      print(jsonResponse);
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      print("ChildVaccineRecordRepository -> " + e.toString());
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> removeVaccineFromChildRecord(
+      Child child, Vaccine vaccine) async {
+    try {
+      String jsonResponse = await _apiBaseHelper
+          .delete('/children/${child.id}/vaccines/${vaccine.id}');
+      print(jsonResponse);
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      print("ChildVaccineRecordRepository -> " + e.toString());
+      return false;
+    }
+
+    return true;
+  }
 }

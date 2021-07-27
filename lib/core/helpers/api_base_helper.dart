@@ -67,6 +67,23 @@ class ApiBaseHelper {
     return response.body;
   }
 
+  Future<String> delete(String url) async {
+    http.Response response;
+    var headers = await _prepareHeaders();
+    try {
+      response = await client.delete(
+        Uri.parse(baseUrl + url),
+        headers: headers,
+      );
+      _checkResponseStatus(response);
+    } on SocketException {
+      throw ApiException('Connection failed.');
+    } on http.ClientException {
+      throw ApiException('Connection failed.');
+    }
+    return response.body;
+  }
+
   _checkResponseStatus(http.Response response) {
     var _response = json.decode(response.body);
     final int _code = response.statusCode;

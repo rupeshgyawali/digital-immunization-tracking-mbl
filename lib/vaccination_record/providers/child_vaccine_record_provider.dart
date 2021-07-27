@@ -20,6 +20,16 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
   Child get child => _child;
   List<Vaccine> get vaccines => _vaccines;
 
+  void _addVaccine(Vaccine vaccine) {
+    _vaccines.add(vaccine);
+    notifyListeners();
+  }
+
+  void _removeVaccine(Vaccine vaccine) {
+    _vaccines.remove(vaccine);
+    notifyListeners();
+  }
+
   Future<void> getChildVaccineRecord() async {
     try {
       _vaccines = await _childVaccineRecordRepo.getChildVaccineRecord(_child);
@@ -29,5 +39,39 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
       print("ChildVaccineRecordProvider -> " + e.toString());
     }
     notifyListeners();
+  }
+
+  Future<bool> addVaccineToChildRecord(Vaccine vaccine) async {
+    bool _success = false;
+    _addVaccine(vaccine);
+    try {
+      _success = await _childVaccineRecordRepo.addVaccineToChildRecord(
+          _child, vaccine);
+    } on ApiException catch (e) {
+      print(e.toString());
+    } catch (e) {
+      print("ChildVaccineRecordProvider -> " + e.toString());
+    }
+
+    getChildVaccineRecord();
+
+    return _success;
+  }
+
+  Future<bool> removeVaccineFromChildRecord(Vaccine vaccine) async {
+    bool _success = false;
+    _removeVaccine(vaccine);
+    try {
+      _success = await _childVaccineRecordRepo.removeVaccineFromChildRecord(
+          _child, vaccine);
+    } on ApiException catch (e) {
+      print(e.toString());
+    } catch (e) {
+      print("ChildVaccineRecordProvider -> " + e.toString());
+    }
+
+    getChildVaccineRecord();
+
+    return _success;
   }
 }

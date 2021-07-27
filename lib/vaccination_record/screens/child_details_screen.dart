@@ -161,10 +161,23 @@ class ChildVaccineDetails extends StatelessWidget {
                                     ),
                                     Switch(
                                       value: context
-                                          .read<ChildVaccineRecordProvider>()
+                                          .watch<ChildVaccineRecordProvider>()
                                           .vaccines
                                           .contains(vaccine),
-                                      onChanged: (value) {},
+                                      onChanged: (value) {
+                                        if (value) {
+                                          context
+                                              .read<
+                                                  ChildVaccineRecordProvider>()
+                                              .addVaccineToChildRecord(vaccine);
+                                        } else {
+                                          context
+                                              .read<
+                                                  ChildVaccineRecordProvider>()
+                                              .removeVaccineFromChildRecord(
+                                                  vaccine);
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),
