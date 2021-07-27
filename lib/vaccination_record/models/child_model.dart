@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Child {
+  final int id;
   final String name;
   final String dob;
   final String birthPlace;
@@ -14,6 +15,7 @@ class Child {
   final String permanentAddr;
 
   Child({
+    this.id,
     this.name,
     @required this.dob,
     @required this.birthPlace,
@@ -29,6 +31,7 @@ class Child {
             'Both temporary and permanent address can not be null');
 
   Child copyWith({
+    int id,
     String name,
     String dob,
     String birthPlace,
@@ -40,6 +43,7 @@ class Child {
     String permanentAddr,
   }) {
     return Child(
+      id: id ?? this.id,
       name: name ?? this.name,
       dob: dob ?? this.dob,
       birthPlace: birthPlace ?? this.birthPlace,
@@ -54,6 +58,7 @@ class Child {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'dob': dob,
       'birthPlace': birthPlace,
@@ -68,6 +73,7 @@ class Child {
 
   factory Child.fromMap(Map<String, dynamic> map) {
     return Child(
+      id: map['id'],
       name: map['name'],
       dob: map['dob'],
       birthPlace: map['birthPlace'],
@@ -86,7 +92,7 @@ class Child {
 
   @override
   String toString() {
-    return 'Child(name: $name, dob: $dob, birthPlace: $birthPlace, fatherName: $fatherName, motherName: $motherName, fatherPhn: $fatherPhn, motherPhn: $motherPhn, temporaryAddr: $temporaryAddr, permanentAddr: $permanentAddr)';
+    return 'Child(id: $id, name: $name, dob: $dob, birthPlace: $birthPlace, fatherName: $fatherName, motherName: $motherName, fatherPhn: $fatherPhn, motherPhn: $motherPhn, temporaryAddr: $temporaryAddr, permanentAddr: $permanentAddr)';
   }
 
   @override
@@ -94,6 +100,7 @@ class Child {
     if (identical(this, other)) return true;
 
     return other is Child &&
+        other.id == id &&
         other.name == name &&
         other.dob == dob &&
         other.birthPlace == birthPlace &&
@@ -107,7 +114,8 @@ class Child {
 
   @override
   int get hashCode {
-    return name.hashCode ^
+    return id.hashCode ^
+        name.hashCode ^
         dob.hashCode ^
         birthPlace.hashCode ^
         fatherName.hashCode ^
