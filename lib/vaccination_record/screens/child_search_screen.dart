@@ -3,6 +3,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/routes/route_paths.dart';
+import '../../core/widgets/button.dart';
+import '../../core/widgets/header_clipper.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/child_search_provider.dart';
 import '../repositories/child_repository.dart';
@@ -18,31 +20,39 @@ class ChildSearchScreen extends StatelessWidget {
       ),
       child: Consumer<ChildSearchProvider>(
         builder: (context, provider, child) => Scaffold(
-          body: Center(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 300,
-                      ),
-                      Text(
-                        "Enter the Phone No. and DOB of the child",
+          body: Column(
+            children: [
+              Expanded(
+                child: ClipPath(
+                  clipper: HeaderClipper(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Child',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      ChildSearchForm(),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              SizedBox(height: 10.0),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: ChildSearchForm(),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -95,36 +105,40 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
             },
           ),
           !context.watch<ChildSearchProvider>().isLoading
-              ? LoginButton(onPressed: () async {
-                  FocusManager.instance.primaryFocus.unfocus();
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    await context.read<ChildSearchProvider>().searchChild();
-                    if (context.read<ChildSearchProvider>().searchSuccess ==
-                        true) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text('Child Found'),
-                      ));
-                      Navigator.pushNamed(
-                        context,
-                        RoutePath.child_details,
-                        arguments:
-                            context.read<ChildSearchProvider>().foundChild,
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text('Child Not Found'),
-                      ));
+              ? DitButton(
+                  label: 'Search',
+                  minWidth: 250,
+                  textStyle: TextStyle(color: Colors.white, fontSize: 20),
+                  onPressed: () async {
+                    FocusManager.instance.primaryFocus.unfocus();
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      await context.read<ChildSearchProvider>().searchChild();
+                      if (context.read<ChildSearchProvider>().searchSuccess ==
+                          true) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Child Found'),
+                        ));
+                        Navigator.pushNamed(
+                          context,
+                          RoutePath.child_details,
+                          arguments:
+                              context.read<ChildSearchProvider>().foundChild,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Child Not Found'),
+                        ));
+                      }
                     }
-                  }
-                })
+                  })
               : Container(child: CircularProgressIndicator()),
         ],
       ),
     );
   }
 
-  _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus.unfocus();
     showDatePicker(
             context: context,
@@ -139,30 +153,6 @@ class _ChildSearchFormState extends State<ChildSearchForm> {
                 value.toString().split(' ')[0].replaceAll(RegExp(r'-'), '/')
           }
       },
-    );
-  }
-}
-
-class LoginButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const LoginButton({Key key, this.onPressed}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(50.0),
-      color: Colors.lightBlueAccent,
-      child: MaterialButton(
-        minWidth: 250,
-        padding: EdgeInsets.all(10),
-        onPressed: this.onPressed,
-        child: Text(
-          'Submit',
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-      ),
     );
   }
 }

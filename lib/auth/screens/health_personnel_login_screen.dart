@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 
 import '../../core/models/app_state.dart';
 import '../../core/routes/route_paths.dart';
+import '../../core/widgets/button.dart';
+import '../../core/widgets/header_clipper.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/health_personnel_login_provider.dart';
 import '../repositories/auth_repository.dart';
-
-TextStyle myStyle = TextStyle(fontSize: 25);
 
 class HealthPersonalLoginScreen extends StatefulWidget {
   @override
@@ -25,30 +25,39 @@ class _HealthPersonalLoginScreenState extends State<HealthPersonalLoginScreen> {
       ),
       child: Consumer<HealthPersonnelLoginProvider>(
         builder: (context, provider, child) => Scaffold(
-          body: Center(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    ClipPath(
-                      clipper: MyClipper(),
-                      child: Container(
-                        height: 250,
-                        decoration: BoxDecoration(
-                          color: Colors.lightBlueAccent,
+          body: Column(
+            children: [
+              Expanded(
+                child: ClipPath(
+                  clipper: HeaderClipper(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Health\nPersonnel',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                    HealthPersonnelLoginForm(),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              SizedBox(height: 10.0),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: HealthPersonnelLoginForm(),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -94,7 +103,10 @@ class _HealthPersonnelLoginFormState extends State<HealthPersonnelLoginForm> {
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
           !context.watch<HealthPersonnelLoginProvider>().isLoading
-              ? LoginButton(
+              ? DitButton(
+                  label: 'Login',
+                  minWidth: 250,
+                  textStyle: TextStyle(color: Colors.white, fontSize: 20),
                   onPressed: () async {
                     FocusManager.instance.primaryFocus.unfocus();
                     if (_formKey.currentState.validate()) {
@@ -124,54 +136,5 @@ class _HealthPersonnelLoginFormState extends State<HealthPersonnelLoginForm> {
         ],
       ),
     );
-  }
-}
-
-class LoginButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const LoginButton({Key key, this.onPressed}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(50.0),
-      color: Colors.lightBlueAccent,
-      child: MaterialButton(
-        minWidth: 250,
-        padding: EdgeInsets.all(10),
-        onPressed: this.onPressed,
-        child: Text(
-          'Login',
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-      ),
-    );
-  }
-}
-
-class MyClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 30);
-    var firststartpoint = Offset(size.width / 4, size.height);
-    var firstendpoint = Offset(size.width / 4 - size.width / 8, size.height);
-    path.quadraticBezierTo(firststartpoint.dx, firststartpoint.dy,
-        firstendpoint.dx, firstendpoint.dy);
-    var secondstartpoint = Offset(size.width / 2, size.height);
-    var secondendpoint = Offset(size.width, size.height - 110);
-    path.quadraticBezierTo(secondstartpoint.dx, secondstartpoint.dy,
-        secondendpoint.dx, secondendpoint.dy);
-
-    path.lineTo(size.width, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

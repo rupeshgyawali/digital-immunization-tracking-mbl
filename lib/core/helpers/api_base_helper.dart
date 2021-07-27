@@ -96,6 +96,8 @@ class ApiBaseHelper {
       case 401:
       case 403:
         throw UnauthorizedException(_response['message']);
+      case 404:
+        throw ResourceNotFoundException(_response['message']);
       case 422:
         throw InvalidInputException(_response['errors'], _response['message']);
       case 500:

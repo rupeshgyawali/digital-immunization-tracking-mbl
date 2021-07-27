@@ -34,6 +34,7 @@ class DigitalImmunizationTrackingApp extends StatelessWidget {
           ...providers,
         ],
         builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Digital Immunization Tracking',
           theme: ThemeData(
             primarySwatch: Colors.blue,

@@ -18,6 +18,11 @@ class UnauthorizedException extends ApiException {
   UnauthorizedException([String message]) : super(message, 'Unauthorized: ');
 }
 
+class ResourceNotFoundException extends ApiException {
+  ResourceNotFoundException([String message])
+      : super(message, 'Resource Not Found: ');
+}
+
 class FetchDataException extends ApiException {
   FetchDataException([String message])
       : super(message, 'Error during communication: ');
