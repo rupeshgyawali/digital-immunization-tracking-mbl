@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 import '../../core/exceptions/api_exceptions.dart';
@@ -11,19 +13,21 @@ class ChildRepository {
     @required ApiBaseHelper apiBaseHelper,
   }) : this._apiBaseHelper = apiBaseHelper;
 
-  Future<Child> findChild(String phoneNo, String dob) async {
-    Child child;
+  Future<List<Child>> findChild(String phoneNo, String dob) async {
+    List<Child> children;
     try {
       String jsonResponse =
           await _apiBaseHelper.get('/children?phone_no=$phoneNo&dob=$dob');
       print(jsonResponse);
-      child = Child.fromJson(jsonResponse);
+      children = (json.decode(jsonResponse) as List)
+          .map((child) => Child.fromMap(child))
+          .toList();
     } on ApiException {
       rethrow;
     } catch (e) {
       print("ChildRepository -> " + e.toString());
     }
-    return child;
+    return children;
   }
 
   Future<Child> createChild(Child child) async {
