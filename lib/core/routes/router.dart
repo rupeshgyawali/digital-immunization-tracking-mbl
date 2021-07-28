@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../auth/screens/health_personnel_login_screen.dart';
 import '../../auth/screens/user_selection_screen.dart';
-import '../../vaccination_record/models/child_model.dart';
-import '../../vaccination_record/screens/child_details_screen.dart';
-import '../../vaccination_record/screens/child_registration_screen.dart';
-import '../../vaccination_record/screens/child_search_screen.dart';
-import '../../vaccination_record/screens/child_selection_screen.dart';
+import '../../child/models/child_model.dart';
+import '../../child/screens/child_registration_screen.dart';
+import '../../child/screens/child_search_screen.dart';
+import '../../child/screens/new_or_existing_child_screen.dart';
+import '../../vaccination_record/screens/child_vaccine_record_screen.dart';
 import '../models/app_state.dart';
 import 'route_paths.dart';
 
@@ -29,7 +29,7 @@ class Router {
         if (!appState.isLoggedIn) {
           return _materialPageRoute(HealthPersonalLoginScreen());
         }
-        return _materialPageRoute(ChildSelectionScreen());
+        return _materialPageRoute(NewOrExistingChildScreen());
       case '${RoutePath.child_search}':
         return _materialPageRoute(ChildSearchScreen());
       case '${RoutePath.child_registration}':
@@ -38,7 +38,7 @@ class Router {
         final args = settings.arguments;
 
         if (args is Child) {
-          return _materialPageRoute(ChildDetailsScreen(child: args));
+          return _materialPageRoute(ChildVaccineRecordScreen(child: args));
         }
 
         return _errorRoute();

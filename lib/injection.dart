@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'auth/repositories/auth_repository.dart';
+import 'child/repositories/child_repository.dart';
 import 'core/helpers/api_base_helper.dart';
-import 'vaccination_record/repositories/child_repository.dart';
 import 'vaccination_record/repositories/child_vaccine_record_repository.dart';
 import 'vaccination_record/repositories/vaccine_repository.dart';
 

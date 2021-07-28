@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../child/models/child_model.dart';
 import '../../core/exceptions/api_exceptions.dart';
 import '../../core/helpers/api_base_helper.dart';
-import '../models/child_model.dart';
 import '../models/vaccine_model.dart';
 
 class ChildVaccineRecordRepository {

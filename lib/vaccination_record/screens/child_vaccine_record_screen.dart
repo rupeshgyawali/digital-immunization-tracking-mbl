@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../child/models/child_model.dart';
 import '../../core/models/app_state.dart';
-import '../models/child_model.dart';
 import '../providers/child_vaccine_record_provider.dart';
 import '../providers/vaccine_provider.dart';
 import '../repositories/child_vaccine_record_repository.dart';
 import '../repositories/vaccine_repository.dart';
 
-class ChildDetailsScreen extends StatelessWidget {
+class ChildVaccineRecordScreen extends StatelessWidget {
   final Child child;
 
-  const ChildDetailsScreen({
+  const ChildVaccineRecordScreen({
     Key key,
     @required this.child,
   }) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../child/models/child_model.dart';
 import '../../core/exceptions/api_exceptions.dart';
-import '../models/child_model.dart';
 import '../models/vaccine_model.dart';
 import '../repositories/child_vaccine_record_repository.dart';
 
