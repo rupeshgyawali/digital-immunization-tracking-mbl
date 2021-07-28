@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/routes/route_paths.dart';
+import '../../core/widgets/button.dart';
 import '../../core/widgets/local_address_field.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/child_registration_provider.dart';
 import '../repositories/child_repository.dart';
-
-TextStyle myStyle = TextStyle(fontSize: 20);
 
 class ChildRegistrationScreen extends StatelessWidget {
   @override
@@ -20,38 +18,25 @@ class ChildRegistrationScreen extends StatelessWidget {
       ),
       child: Consumer<ChildRegistrationProvider>(
         builder: (context, provider, child) => Scaffold(
-          body: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "CHILD REGISTRATION",
-                          style: TextStyle(
-                              color: Colors.lightBlueAccent,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ChildRegistrationForm(),
-                    ],
-                  ),
-                ),
+          backgroundColor: Color(0xFFDCDCDC),
+          appBar: AppBar(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: CloseButton(
+                color: Colors.black87,
               ),
             ),
+            title: Text(
+              "Child Register",
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
           ),
+          body: ChildRegistrationForm(),
         ),
       ),
     );
@@ -67,30 +52,180 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _dateFieldController = TextEditingController();
 
+  int currentStep;
+  bool complete;
+
+  void next() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      currentStep != 3
+          ? goTo(currentStep + 1)
+          : setState(() {
+              complete = true;
+            });
+    }
+  }
+
+  void cancel() {
+    if (currentStep > 0) {
+      goTo(currentStep - 1);
+    }
+  }
+
+  void goTo(int step) {
+    setState(() {
+      currentStep = step;
+    });
+  }
+
+  @override
+  void initState() {
+    currentStep = 0;
+    complete = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _dateFieldController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
+      child: Theme(
+        data: ThemeData(
+          canvasColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
+        child: Stepper(
+          type: StepperType.horizontal,
+          currentStep: currentStep,
+          onStepContinue: next,
+          onStepCancel: cancel,
+          onStepTapped: (step) => goTo(step),
+          steps: [
+            Step(
+              title: const Text(''),
+              isActive: currentStep >= 0,
+              content: NameDobAndBirthPlaceField(
+                  dateFieldController: _dateFieldController),
+            ),
+            Step(
+              title: const Text(''),
+              isActive: currentStep >= 1,
+              content: FatherAndMotherNameField(),
+            ),
+            Step(
+              title: const Text(''),
+              isActive: currentStep >= 2,
+              content: FatherAndMotherPhoneNoField(),
+            ),
+            Step(
+              title: const Text(''),
+              isActive: currentStep >= 3,
+              content: TemporaryAndPermanentAddressField(),
+            ),
+          ],
+          controlsBuilder: (BuildContext context,
+              {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+            return !context.watch<ChildRegistrationProvider>().isLoading
+                ? Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: DitButton(
+                            label: 'Previous',
+                            color: Colors.white,
+                            minWidth: MediaQuery.of(context).size.width / 2,
+                            textStyle: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                            padding: EdgeInsets.all(25.0),
+                            onPressed: onStepCancel,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: DitButton(
+                            label: 'Next',
+                            minWidth: MediaQuery.of(context).size.width / 2,
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            padding: EdgeInsets.all(25.0),
+                            onPressed: () async {
+                              next();
+                              if (complete == false) return;
+
+                              FocusManager.instance.primaryFocus.unfocus();
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                await context
+                                    .read<ChildRegistrationProvider>()
+                                    .registerChild();
+                                if (context
+                                        .read<ChildRegistrationProvider>()
+                                        .registrationSuccess ==
+                                    true) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RoutePath.child_details,
+                                    arguments: context
+                                        .read<ChildRegistrationProvider>()
+                                        .newChild,
+                                  );
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class NameDobAndBirthPlaceField extends StatelessWidget {
+  final TextEditingController dateFieldController;
+
+  const NameDobAndBirthPlaceField({Key key, @required this.dateFieldController})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30.0,
+        vertical: 100.0,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: kElevationToShadow[2]),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          context.watch<ChildRegistrationProvider>().hasError
-              ? Center(
-                  child: Text(
-                    context.watch<ChildRegistrationProvider>().errorMessage,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                )
-              : Center(),
           DitTextFormField(
             label: "Child Name",
             icon: Icon(Icons.child_care_outlined),
+            initialValue: context.read<ChildRegistrationProvider>().name,
             onSaved: context.read<ChildRegistrationProvider>().setName,
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
+          SizedBox(height: 10.0),
           DitTextFormField(
             label: "Date of Birth",
-            controller: _dateFieldController,
+            controller: dateFieldController,
             icon: Icon(Icons.person_outline_outlined),
             onSaved: context.read<ChildRegistrationProvider>().setDob,
             validator: MultiValidator([
@@ -102,101 +237,21 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
               _selectDate(context);
             },
           ),
+          SizedBox(height: 10.0),
           DitTextFormField(
             label: "Birth Place",
             icon: Icon(Icons.person_outline_outlined),
+            initialValue: context.read<ChildRegistrationProvider>().birthPlace,
+            // onChanged: context.read<ChildRegistrationProvider>().setBirthPlace,
             onSaved: context.read<ChildRegistrationProvider>().setBirthPlace,
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
-          DitTextFormField(
-            label: "Father Name",
-            icon: Icon(Icons.person_outline_outlined),
-            onSaved: context.read<ChildRegistrationProvider>().setFatherName,
-            validator: RequiredValidator(errorText: 'This field is required'),
-          ),
-          DitTextFormField(
-            label: "Mother Name",
-            icon: Icon(Icons.person_outline_outlined),
-            onSaved: context.read<ChildRegistrationProvider>().setMotherName,
-            validator: RequiredValidator(errorText: 'This field is required'),
-          ),
-          DitTextFormField(
-            label: "Father Phone Number",
-            icon: Icon(Icons.phone_android_outlined),
-            onSaved: context.read<ChildRegistrationProvider>().setFatherPhn,
-            validator: RequiredValidator(errorText: 'This field is required'),
-          ),
-          DitTextFormField(
-            label: "Mother Phone Number",
-            icon: Icon(Icons.phone_android_outlined),
-            onSaved: context.read<ChildRegistrationProvider>().setMotherPhn,
-            validator: RequiredValidator(errorText: 'This field is required'),
-          ),
-          LocalAddressField(
-            label: "Temporary Address",
-            onSaved: (localAddress) {
-              context
-                  .read<ChildRegistrationProvider>()
-                  .setTemporaryAddr(localAddress.toString());
-            },
-          ),
-          LocalAddressField(
-            label: "Permanent Address",
-            onSaved: (localAddress) {
-              context
-                  .read<ChildRegistrationProvider>()
-                  .setPermanentAddr(localAddress.toString());
-            },
-          ),
-          SizedBox(height: 10),
-          !context.watch<ChildRegistrationProvider>().isLoading
-              ? Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    child: Text(
-                      'Register',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    onPressed: () async {
-                      FocusManager.instance.primaryFocus.unfocus();
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        await context
-                            .read<ChildRegistrationProvider>()
-                            .registerChild();
-                        if (context
-                                .read<ChildRegistrationProvider>()
-                                .registrationSuccess ==
-                            true) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text("Registration Successfull"),
-                            ),
-                          );
-                          Navigator.pushNamed(
-                            context,
-                            RoutePath.child_details,
-                            arguments: context
-                                .read<ChildRegistrationProvider>()
-                                .newChild,
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: const Text("Registration Failed")),
-                          );
-                        }
-                      }
-                    },
-                  ),
-                )
-              : Container(child: CircularProgressIndicator()),
         ],
       ),
     );
   }
 
-  _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus.unfocus();
     showDatePicker(
             context: context,
@@ -207,10 +262,125 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
       (value) => {
         if (value != null)
           {
-            _dateFieldController.text =
+            dateFieldController.text =
                 value.toString().split(' ')[0].replaceAll(RegExp(r'-'), '/')
           }
       },
+    );
+  }
+}
+
+class FatherAndMotherNameField extends StatelessWidget {
+  const FatherAndMotherNameField({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30.0,
+        vertical: 100.0,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: kElevationToShadow[2]),
+      child: Column(
+        children: [
+          DitTextFormField(
+            label: "Father Name",
+            icon: Icon(Icons.person_outline_outlined),
+            initialValue: context.read<ChildRegistrationProvider>().fatherName,
+            onSaved: context.read<ChildRegistrationProvider>().setFatherName,
+            validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+          SizedBox(height: 10.0),
+          DitTextFormField(
+            label: "Mother Name",
+            icon: Icon(Icons.person_outline_outlined),
+            initialValue: context.read<ChildRegistrationProvider>().motherName,
+            onSaved: context.read<ChildRegistrationProvider>().setMotherName,
+            validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class FatherAndMotherPhoneNoField extends StatelessWidget {
+  const FatherAndMotherPhoneNoField({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30.0,
+        vertical: 100.0,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: kElevationToShadow[2]),
+      child: Column(
+        children: [
+          DitTextFormField(
+            label: "Father Phone Number",
+            icon: Icon(Icons.phone_android_outlined),
+            initialValue: context.read<ChildRegistrationProvider>().fatherPhn,
+            onSaved: context.read<ChildRegistrationProvider>().setFatherPhn,
+            validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+          SizedBox(height: 10.0),
+          DitTextFormField(
+            label: "Mother Phone Number",
+            icon: Icon(Icons.phone_android_outlined),
+            initialValue: context.read<ChildRegistrationProvider>().motherPhn,
+            onSaved: context.read<ChildRegistrationProvider>().setMotherPhn,
+            validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TemporaryAndPermanentAddressField extends StatelessWidget {
+  const TemporaryAndPermanentAddressField({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30.0,
+        vertical: 100.0,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: kElevationToShadow[2]),
+      child: Theme(
+        data: ThemeData(canvasColor: Colors.white),
+        child: Column(
+          children: [
+            LocalAddressField(
+              label: "Temporary Address",
+              isRequired: true,
+              initialValue:
+                  context.read<ChildRegistrationProvider>().temporaryAddr,
+              onSaved:
+                  context.read<ChildRegistrationProvider>().setTemporaryAddr,
+            ),
+            SizedBox(height: 10.0),
+            LocalAddressField(
+              label: "Permanent Address",
+              initialValue:
+                  context.read<ChildRegistrationProvider>().permanentAddr,
+              onSaved:
+                  context.read<ChildRegistrationProvider>().setPermanentAddr,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

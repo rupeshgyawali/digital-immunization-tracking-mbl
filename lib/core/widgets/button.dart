@@ -14,6 +14,7 @@ class DitButton extends StatelessWidget {
     this.color,
     this.textStyle,
     this.minWidth,
+    this.padding,
   }) : super(key: key);
 
   const DitButton.expanded({
@@ -22,6 +23,7 @@ class DitButton extends StatelessWidget {
     this.onPressed,
     Color color,
     TextStyle textStyle,
+    this.padding,
   })  : this.color = color ?? Colors.white,
         this.textStyle = textStyle ?? defaultExpandedTextStyle,
         this.minWidth = double.infinity,
@@ -32,6 +34,7 @@ class DitButton extends StatelessWidget {
   final Color color;
   final TextStyle textStyle;
   final double minWidth;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class DitButton extends StatelessWidget {
       color: color ?? Theme.of(context).primaryColor,
       child: MaterialButton(
         minWidth: minWidth,
-        padding: EdgeInsets.all(20),
+        padding: padding ?? EdgeInsets.all(20),
         onPressed: onPressed,
         child: Text(label, style: textStyle),
       ),

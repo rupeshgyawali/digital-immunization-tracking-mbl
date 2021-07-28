@@ -47,9 +47,12 @@ class DitTextFormField extends StatelessWidget {
   final String label;
   final Widget icon;
   final void Function(String value) onSaved;
+  final void Function() onEditingComplete;
+  final void Function(String) onChanged;
   final String Function(String value) validator;
   final TextEditingController controller;
   final GestureTapCallback onTap;
+  final String initialValue;
 
   const DitTextFormField(
       {Key key,
@@ -58,7 +61,10 @@ class DitTextFormField extends StatelessWidget {
       this.onSaved,
       this.validator,
       this.controller,
-      this.onTap})
+      this.onTap,
+      this.initialValue,
+      this.onEditingComplete,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -84,8 +90,11 @@ class DitTextFormField extends StatelessWidget {
           controller: this.controller,
           onSaved: this.onSaved,
           onTap: this.onTap,
+          onEditingComplete: this.onEditingComplete,
+          onChanged: this.onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: this.validator,
+          initialValue: this.initialValue,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.all(10),
               prefixIcon: this.icon,

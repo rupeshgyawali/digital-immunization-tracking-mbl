@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../core/exceptions/api_exceptions.dart';
+import '../../core/widgets/local_address_field.dart';
 import '../models/child_model.dart';
 import '../repositories/child_repository.dart';
 
@@ -12,8 +13,8 @@ class ChildRegistrationProvider extends ChangeNotifier {
   String _motherName;
   String _fatherPhn;
   String _motherPhn;
-  String _temporaryAddr;
-  String _permanentAddr;
+  LocalAddress _temporaryAddr;
+  LocalAddress _permanentAddr;
   Child _newChild;
 
   bool _isLoading;
@@ -36,8 +37,8 @@ class ChildRegistrationProvider extends ChangeNotifier {
   String get motherName => _motherName;
   String get fatherPhn => _fatherPhn;
   String get motherPhn => _motherPhn;
-  String get temporaryAddr => _temporaryAddr;
-  String get permanentAddr => _permanentAddr;
+  LocalAddress get temporaryAddr => _temporaryAddr;
+  LocalAddress get permanentAddr => _permanentAddr;
   Child get newChild => _newChild;
   bool get isLoading => _isLoading;
   bool get registrationSuccess => _registrationSuccess;
@@ -78,11 +79,11 @@ class ChildRegistrationProvider extends ChangeNotifier {
     _motherPhn = motherPhn;
   }
 
-  void setTemporaryAddr(String temporaryAddr) {
+  void setTemporaryAddr(LocalAddress temporaryAddr) {
     _temporaryAddr = temporaryAddr;
   }
 
-  void setPermanentAddr(String permanentAddr) {
+  void setPermanentAddr(LocalAddress permanentAddr) {
     _permanentAddr = permanentAddr;
   }
 
@@ -101,8 +102,8 @@ class ChildRegistrationProvider extends ChangeNotifier {
         motherName: _motherName,
         fatherPhn: _fatherPhn,
         motherPhn: _motherPhn,
-        temporaryAddr: _temporaryAddr,
-        permanentAddr: _permanentAddr ?? _temporaryAddr,
+        temporaryAddr: _temporaryAddr.toString(),
+        permanentAddr: _permanentAddr?.toString() ?? _temporaryAddr.toString(),
       ));
       _registrationSuccess = child == null ? false : true;
       _newChild = child;
