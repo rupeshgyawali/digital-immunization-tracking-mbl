@@ -132,67 +132,41 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
           controlsBuilder: (BuildContext context,
               {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
             return !context.watch<ChildRegistrationProvider>().isLoading
-                ? Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: DitButton(
-                            label: 'Previous',
-                            color: Colors.white,
-                            minWidth: MediaQuery.of(context).size.width / 2,
-                            textStyle: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold),
-                            padding: EdgeInsets.all(25.0),
-                            onPressed: onStepCancel,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: DitButton(
-                            label: 'Next',
-                            minWidth: MediaQuery.of(context).size.width / 2,
-                            textStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                            padding: EdgeInsets.all(25.0),
-                            onPressed: () async {
-                              next();
-                              if (complete == false) return;
-
-                              FocusManager.instance.primaryFocus.unfocus();
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                await context
-                                    .read<ChildRegistrationProvider>()
-                                    .registerChild();
-                                if (context
-                                        .read<ChildRegistrationProvider>()
-                                        .registrationSuccess ==
-                                    true) {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RoutePath.child_details,
-                                    arguments: context
-                                        .read<ChildRegistrationProvider>()
-                                        .newChild,
-                                  );
-                                }
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                ? DitDoubleStackButton(
+                    firstLabel: 'Previous',
+                    secondLabel: 'Next',
+                    onFirstPressed: onStepCancel,
+                    onSecondPressed: () async {
+                      onPressed(context);
+                    },
                   )
-                : Center(child: CircularProgressIndicator());
+                : Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: Center(child: CircularProgressIndicator()),
+                  );
           },
         ),
       ),
     );
+  }
+
+  Future<void> onPressed(BuildContext context) async {
+    next();
+    if (complete == false) return;
+
+    FocusManager.instance.primaryFocus.unfocus();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      await context.read<ChildRegistrationProvider>().registerChild();
+      if (context.read<ChildRegistrationProvider>().registrationSuccess ==
+          true) {
+        Navigator.pushNamed(
+          context,
+          RoutePath.child_details,
+          arguments: context.read<ChildRegistrationProvider>().newChild,
+        );
+      }
+    }
   }
 }
 

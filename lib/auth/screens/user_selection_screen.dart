@@ -61,7 +61,7 @@ class UserSelectionScreen extends StatelessWidget {
                   DitButton.expanded(
                     label: 'Child',
                     onPressed: () {
-                      Navigator.pushNamed(context, RoutePath.child_search);
+                      Navigator.pushNamed(context, RoutePath.child_home);
                     },
                   ),
                   Expanded(

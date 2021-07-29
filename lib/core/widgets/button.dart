@@ -46,7 +46,56 @@ class DitButton extends StatelessWidget {
         minWidth: minWidth,
         padding: padding ?? EdgeInsets.all(20),
         onPressed: onPressed,
-        child: Text(label, style: textStyle),
+        child: Text(label, style: textStyle, textAlign: TextAlign.center),
+      ),
+    );
+  }
+}
+
+class DitDoubleStackButton extends StatelessWidget {
+  const DitDoubleStackButton({
+    Key key,
+    @required this.firstLabel,
+    @required this.secondLabel,
+    this.onFirstPressed,
+    this.onSecondPressed,
+  }) : super(key: key);
+
+  final String firstLabel;
+  final String secondLabel;
+  final void Function() onFirstPressed;
+  final void Function() onSecondPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: DitButton(
+              label: this.firstLabel,
+              color: Colors.white,
+              minWidth: MediaQuery.of(context).size.width / 2,
+              textStyle:
+                  TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              padding: EdgeInsets.all(25.0),
+              onPressed: this.onFirstPressed,
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: DitButton(
+              label: this.secondLabel,
+              minWidth: MediaQuery.of(context).size.width / 2,
+              textStyle:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              padding: EdgeInsets.all(25.0),
+              onPressed: this.onSecondPressed,
+            ),
+          ),
+        ],
       ),
     );
   }

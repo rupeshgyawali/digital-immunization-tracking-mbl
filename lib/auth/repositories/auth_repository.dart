@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../child/models/child_model.dart';
 import '../../core/exceptions/api_exceptions.dart';
 import '../../core/helpers/api_base_helper.dart';
 import '../models/auth_token_model.dart';
@@ -21,6 +24,40 @@ class AuthRepository {
     return await _deleteTokenFromLocalCache() && await _deleteTokenFromRemote()
         ? true
         : false;
+  }
+
+  Future<bool> generateOtp(String phoneNo) async {
+    try {
+      String jsonResponse = await _apiBaseHelper.post(
+        '/otp/generate',
+        data: {'phone_no': phoneNo},
+      );
+      print(jsonResponse);
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      print("AuthRepository -> " + e.toString());
+      return false;
+    }
+    return true;
+  }
+
+  Future<List<Child>> loginChild(String phoneNo, String otp) async {
+    List<Child> children;
+    try {
+      String jsonResponse = await _apiBaseHelper.post(
+        '/children/login',
+        data: {'phone_no': phoneNo, 'otp': otp},
+      );
+      children = (json.decode(jsonResponse) as List)
+          .map((child) => Child.fromMap(child))
+          .toList();
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      print("ChildRepository -> " + e.toString());
+    }
+    return children;
   }
 
   //Get saved auth token from local cache
