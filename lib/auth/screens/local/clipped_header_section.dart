@@ -12,6 +12,7 @@ class ClippedHeaderSection extends StatelessWidget {
     return ClipPath(
       clipper: HeaderClipper(),
       child: Container(
+        padding: MediaQuery.of(context).padding,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           image: DecorationImage(
@@ -36,20 +37,22 @@ class ClippedHeaderSection extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  title ?? '',
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1,
-                  ),
-                  textAlign: TextAlign.center,
+            Expanded(child: Container()),
+            Container(
+              padding: EdgeInsets.only(bottom: 50.0),
+              width: double.infinity,
+              child: Text(
+                title ?? '',
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
+            Expanded(child: Container()),
           ],
         ),
       ),

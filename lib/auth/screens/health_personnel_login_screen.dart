@@ -25,21 +25,21 @@ class _HealthPersonalLoginScreenState extends State<HealthPersonalLoginScreen> {
       ),
       child: Consumer<HealthPersonnelLoginProvider>(
         builder: (context, provider, child) => Scaffold(
-          body: Column(
-            children: [
-              Expanded(
-                flex: 2,
-                child: ClippedHeaderSection(title: 'Health\nPersonnel'),
-              ),
-              SizedBox(height: 30.0),
-              Expanded(
-                flex: 3,
-                child: Padding(
+          body: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: ClippedHeaderSection(title: 'Health\nPersonnel'),
+                ),
+                SizedBox(height: 30.0),
+                Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: HealthPersonnelLoginForm(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

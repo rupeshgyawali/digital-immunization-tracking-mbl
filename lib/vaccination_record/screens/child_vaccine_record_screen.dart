@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../child/models/child_model.dart';
 import '../../core/models/app_state.dart';
+import '../models/vaccine_model.dart';
 import '../providers/child_vaccine_record_provider.dart';
 import '../providers/vaccine_provider.dart';
 import '../repositories/child_vaccine_record_repository.dart';
@@ -29,20 +31,32 @@ class ChildVaccineRecordScreen extends StatelessWidget {
         return childVaccineRecordProvider;
       },
       child: Scaffold(
+        backgroundColor: Color(0xFFDCDCDC),
+        appBar: AppBar(),
         body: Consumer<ChildVaccineRecordProvider>(
-          builder: (context, _, __) => ListView(
+          builder: (context, provider, __) => ListView(
             children: [
               Container(
-                color: Colors.white70,
-                padding: EdgeInsets.symmetric(vertical: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.symmetric(vertical: 50.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(width: double.infinity),
                     CircleAvatar(
                       radius: 75,
-                      backgroundImage: NetworkImage(
-                          "https://media.istockphoto.com/photos/doctor-giving-an-injection-vaccine-to-a-girl-little-girl-crying-with-picture-id1025414242?k=6&m=1025414242&s=612x612&w=0&h=NZVqNKu15qSleWuFERrzfvhK-JFvOdHef2bqJCrXKqY="),
+                      child: Text(
+                        child.name?.substring(0, 1) ?? '',
+                        textScaleFactor: 2,
+                      ),
+                      // foregroundImage: NetworkImage(
+                      //     "http://localhost:8000/storage/${context.watch<ChildVaccineRecordProvider>()?.vaccinationRecords?.last?.photoUrl ?? ' '}"),
                     ),
                     SizedBox(height: 6.0),
                     Column(
@@ -95,9 +109,11 @@ class ChildVaccineRecordScreen extends StatelessWidget {
 }
 
 class ChildVaccineDetails extends StatelessWidget {
-  const ChildVaccineDetails({
+  ChildVaccineDetails({
     Key key,
   }) : super(key: key);
+
+  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +127,22 @@ class ChildVaccineDetails extends StatelessWidget {
       child: Consumer<VaccineProvider>(
         builder: (context, provider, child) => Container(
           child: (provider.vaccines == null ||
-                  context.read<ChildVaccineRecordProvider>().vaccines == null)
+                  context
+                          .read<ChildVaccineRecordProvider>()
+                          .vaccinationRecords ==
+                      null)
               ? Center(child: CircularProgressIndicator())
               : Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 20.0),
+                      child: Container(
+                        width: double.infinity,
                         child: Text(
                           'Vaccines',
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 22.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -131,15 +152,13 @@ class ChildVaccineDetails extends StatelessWidget {
                         .watch<VaccineProvider>()
                         .vaccines
                         .map((vaccine) => Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 8.0),
                               child: Container(
                                 width: double.infinity,
-                                height: 100.0,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 50.0),
+                                padding: EdgeInsets.all(25.0),
                                 decoration: BoxDecoration(
-                                  border: Border.all(width: 0.0),
-                                  borderRadius: BorderRadius.circular(50.0),
+                                  borderRadius: BorderRadius.circular(5.0),
                                   color: context
                                           .watch<ChildVaccineRecordProvider>()
                                           .vaccines
@@ -167,6 +186,18 @@ class ChildVaccineDetails extends StatelessWidget {
                                               fontSize: 12.0,
                                             ),
                                           ),
+                                          context
+                                                  .watch<
+                                                      ChildVaccineRecordProvider>()
+                                                  .vaccines
+                                                  .contains(vaccine)
+                                              ? Text(
+                                                  "On ${context.watch<ChildVaccineRecordProvider>().getVaccinationDateFromVaccine(vaccine)}",
+                                                  style: TextStyle(
+                                                    fontSize: 12.0,
+                                                  ),
+                                                )
+                                              : Text(''),
                                         ],
                                       ),
                                     ),
@@ -179,24 +210,14 @@ class ChildVaccineDetails extends StatelessWidget {
                                             .watch<ChildVaccineRecordProvider>()
                                             .vaccines
                                             .contains(vaccine),
-                                        onChanged:
-                                            context.watch<AppState>().isLoggedIn
-                                                ? (value) {
-                                                    if (value) {
-                                                      context
-                                                          .read<
-                                                              ChildVaccineRecordProvider>()
-                                                          .addVaccineToChildRecord(
-                                                              vaccine);
-                                                    } else {
-                                                      context
-                                                          .read<
-                                                              ChildVaccineRecordProvider>()
-                                                          .removeVaccineFromChildRecord(
-                                                              vaccine);
-                                                    }
-                                                  }
-                                                : null,
+                                        onChanged: context
+                                                .watch<AppState>()
+                                                .isLoggedIn
+                                            ? (value) {
+                                                _onSwitchChanged(
+                                                    context, value, vaccine);
+                                              }
+                                            : null,
                                       ),
                                     ),
                                   ],
@@ -209,5 +230,21 @@ class ChildVaccineDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _onSwitchChanged(
+      BuildContext context, bool value, Vaccine vaccine) async {
+    if (value) {
+      final XFile pickedFile =
+          await this._picker.pickImage(source: ImageSource.camera);
+      print(pickedFile.path);
+      context
+          .read<ChildVaccineRecordProvider>()
+          .addVaccineToChildRecord(vaccine, photoPath: pickedFile.path);
+    } else {
+      context
+          .read<ChildVaccineRecordProvider>()
+          .removeVaccineFromChildRecord(vaccine);
+    }
   }
 }

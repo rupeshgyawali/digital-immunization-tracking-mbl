@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../child/models/child_model.dart';
 import '../../core/exceptions/api_exceptions.dart';
 import '../../core/helpers/api_base_helper.dart';
+import '../models/vaccination_record_model.dart';
 import '../models/vaccine_model.dart';
 
 class ChildVaccineRecordRepository {
@@ -14,27 +15,33 @@ class ChildVaccineRecordRepository {
     @required ApiBaseHelper apiBaseHelper,
   }) : this._apiBaseHelper = apiBaseHelper;
 
-  Future<List<Vaccine>> getChildVaccineRecord(Child child) async {
-    List<Vaccine> vaccines;
+  Future<List<VaccinationRecord>> getChildVaccineRecord(Child child) async {
+    List<VaccinationRecord> vaccinationRecords;
     try {
       String jsonResponse =
           await _apiBaseHelper.get('/children/${child.id}/vaccines');
       print(jsonResponse);
-      vaccines = (json.decode(jsonResponse) as List)
-          .map((vaccine) => Vaccine.fromMap(vaccine))
+      vaccinationRecords = (json.decode(jsonResponse) as List)
+          .map((vaccinationRecord) =>
+              VaccinationRecord.fromMap(vaccinationRecord))
           .toList();
+      print(vaccinationRecords);
     } on ApiException {
       rethrow;
     } catch (e) {
       print("ChildVaccineRecordRepository -> " + e.toString());
     }
-    return vaccines;
+    return vaccinationRecords;
   }
 
-  Future<bool> addVaccineToChildRecord(Child child, Vaccine vaccine) async {
+  Future<bool> addVaccineToChildRecord(Child child, Vaccine vaccine,
+      {String photoPath}) async {
     try {
-      String jsonResponse = await _apiBaseHelper
-          .post('/children/${child.id}/vaccines/${vaccine.id}');
+      String jsonResponse = await _apiBaseHelper.uploadFileMultipart(
+        '/children/${child.id}/vaccines/${vaccine.id}',
+        fieldName: 'photo',
+        filePath: photoPath,
+      );
       print(jsonResponse);
     } on ApiException {
       rethrow;

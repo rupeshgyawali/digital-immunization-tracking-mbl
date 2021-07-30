@@ -84,6 +84,34 @@ class ApiBaseHelper {
     return response.body;
   }
 
+  Future<String> uploadFileMultipart(String url,
+      {String fieldName, String filePath}) async {
+    http.Response response;
+    try {
+      Map<String, String> headers = await _prepareHeaders();
+      headers.remove('Content-Type');
+
+      http.MultipartRequest request = http.MultipartRequest(
+        'POST',
+        Uri.parse(baseUrl + url),
+      )
+        ..files.add(
+          await http.MultipartFile.fromPath(fieldName, filePath),
+        )
+        ..headers.addAll(headers);
+
+      http.StreamedResponse streamedResponse = await request.send();
+      response = await http.Response.fromStream(streamedResponse);
+
+      _checkResponseStatus(response);
+    } on SocketException {
+      throw ApiException('Connection failed!');
+    } on http.ClientException {
+      throw ApiException('Connection failed.');
+    }
+    return response.body;
+  }
+
   _checkResponseStatus(http.Response response) {
     var _response = json.decode(response.body);
     final int _code = response.statusCode;

@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 
 import '../../child/models/child_model.dart';
 import '../../core/exceptions/api_exceptions.dart';
+import '../models/vaccination_record_model.dart';
 import '../models/vaccine_model.dart';
 import '../repositories/child_vaccine_record_repository.dart';
 
 class ChildVaccineRecordProvider extends ChangeNotifier {
   Child _child;
+  List<VaccinationRecord> _vaccinationRecords;
   List<Vaccine> _vaccines;
 
   final ChildVaccineRecordRepository _childVaccineRecordRepo;
@@ -18,6 +20,7 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
         this._child = child;
 
   Child get child => _child;
+  List<VaccinationRecord> get vaccinationRecords => _vaccinationRecords;
   List<Vaccine> get vaccines => _vaccines;
 
   void _addVaccine(Vaccine vaccine) {
@@ -30,9 +33,34 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getVaccinationDateFromVaccine(Vaccine vaccine) {
+    for (VaccinationRecord vaccinationRecord in _vaccinationRecords) {
+      if (vaccinationRecord.vaccine.id == vaccine.id) {
+        return vaccinationRecord.vaccinationDate
+            .toString()
+            .substring(0, 10)
+            .replaceAll(RegExp(r'-'), '/');
+      }
+    }
+    return '';
+  }
+
+  String getPhotoUrlFromVaccine(Vaccine vaccine) {
+    for (VaccinationRecord vaccinationRecord in _vaccinationRecords) {
+      if (vaccinationRecord.vaccine.id == vaccine.id) {
+        return vaccinationRecord.photoUrl;
+      }
+    }
+    return null;
+  }
+
   Future<void> getChildVaccineRecord() async {
     try {
-      _vaccines = await _childVaccineRecordRepo.getChildVaccineRecord(_child);
+      _vaccinationRecords =
+          await _childVaccineRecordRepo.getChildVaccineRecord(_child);
+      _vaccines = _vaccinationRecords
+          .map((vaccinationRecord) => vaccinationRecord.vaccine)
+          .toList();
     } on ApiException catch (e) {
       print(e.toString());
     } catch (e) {
@@ -41,12 +69,13 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> addVaccineToChildRecord(Vaccine vaccine) async {
+  Future<bool> addVaccineToChildRecord(Vaccine vaccine,
+      {String photoPath}) async {
     bool _success = false;
     _addVaccine(vaccine);
     try {
-      _success = await _childVaccineRecordRepo.addVaccineToChildRecord(
-          _child, vaccine);
+      _success = await _childVaccineRecordRepo
+          .addVaccineToChildRecord(_child, vaccine, photoPath: photoPath);
     } on ApiException catch (e) {
       print(e.toString());
     } catch (e) {
