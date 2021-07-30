@@ -54,6 +54,7 @@ class DitTextFormField extends StatelessWidget {
   final GestureTapCallback onTap;
   final String initialValue;
   final bool isRequired;
+  final bool obscureText;
 
   const DitTextFormField({
     Key key,
@@ -67,6 +68,7 @@ class DitTextFormField extends StatelessWidget {
     this.onEditingComplete,
     this.onChanged,
     this.isRequired = true,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -106,6 +108,7 @@ class DitTextFormField extends StatelessWidget {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: this.validator,
           initialValue: this.initialValue,
+          obscureText: this.obscureText,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.all(10),
               prefixIcon: this.icon,

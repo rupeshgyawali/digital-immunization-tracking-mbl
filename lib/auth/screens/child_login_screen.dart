@@ -6,12 +6,10 @@ import '../../child/models/child_model.dart';
 import '../../core/models/app_state.dart';
 import '../../core/routes/route_paths.dart';
 import '../../core/widgets/button.dart';
-import '../../core/widgets/header_clipper.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/child_login_provider.dart';
 import '../repositories/auth_repository.dart';
-
-TextStyle myStyle = TextStyle(fontSize: 20);
+import 'local/clipped_header_section.dart';
 
 class ChildLoginScreen extends StatelessWidget {
   @override
@@ -25,56 +23,12 @@ class ChildLoginScreen extends StatelessWidget {
           body: Column(
             children: [
               Expanded(
-                child: ClipPath(
-                  clipper: HeaderClipper(),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.4), BlendMode.dstATop),
-                        image: NetworkImage(
-                          'https://media.istockphoto.com/photos/doctor-giving-an-injection-vaccine-to-a-girl-little-girl-crying-with-picture-id1025414242?k=6&m=1025414242&s=612x612&w=0&h=NZVqNKu15qSleWuFERrzfvhK-JFvOdHef2bqJCrXKqY=',
-                        ),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          child: Container(
-                            padding: EdgeInsets.all(20.0),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              'Child',
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                flex: 2,
+                child: ClippedHeaderSection(title: 'Child'),
               ),
               SizedBox(height: 30.0),
               Expanded(
+                flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: ChildLoginForm(),

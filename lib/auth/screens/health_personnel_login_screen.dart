@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import '../../core/models/app_state.dart';
 import '../../core/routes/route_paths.dart';
 import '../../core/widgets/button.dart';
-import '../../core/widgets/header_clipper.dart';
 import '../../core/widgets/text_field.dart';
 import '../providers/health_personnel_login_provider.dart';
 import '../repositories/auth_repository.dart';
+import 'local/clipped_header_section.dart';
 
 class HealthPersonalLoginScreen extends StatefulWidget {
   @override
@@ -28,30 +28,12 @@ class _HealthPersonalLoginScreenState extends State<HealthPersonalLoginScreen> {
           body: Column(
             children: [
               Expanded(
-                child: ClipPath(
-                  clipper: HeaderClipper(),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Health\nPersonnel',
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Expanded(
                 flex: 2,
+                child: ClippedHeaderSection(title: 'Health\nPersonnel'),
+              ),
+              SizedBox(height: 30.0),
+              Expanded(
+                flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: HealthPersonnelLoginForm(),
@@ -99,8 +81,18 @@ class _HealthPersonnelLoginFormState extends State<HealthPersonnelLoginForm> {
           ),
           DitTextFormField(
             label: 'Password',
+            obscureText: true,
             onSaved: context.read<HealthPersonnelLoginProvider>().setPassword,
             validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              '* denotes fields are required.',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.grey),
+            ),
           ),
           !context.watch<HealthPersonnelLoginProvider>().isLoading
               ? DitButton(
@@ -123,7 +115,7 @@ class _HealthPersonnelLoginFormState extends State<HealthPersonnelLoginForm> {
                         ));
                         context.read<AppState>().setIsLoggedIn(true);
                         Navigator.popAndPushNamed(
-                            context, RoutePath.child_selection);
+                            context, RoutePath.health_personnel_home);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Text('Login Failed'),

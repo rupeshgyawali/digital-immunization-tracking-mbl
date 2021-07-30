@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/routes/route_paths.dart';
 import '../../core/widgets/button.dart';
 
-class UserSelectionScreen extends StatelessWidget {
+class AppHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +52,8 @@ class UserSelectionScreen extends StatelessWidget {
                   DitButton.expanded(
                     label: 'Health Personal',
                     onPressed: () {
-                      Navigator.pushNamed(context, RoutePath.child_selection);
+                      Navigator.pushNamed(
+                          context, RoutePath.health_personnel_home);
                     },
                   ),
                   SizedBox(
