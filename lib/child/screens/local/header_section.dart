@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class HeaderSection extends StatelessWidget {
-  const HeaderSection({Key key, this.title}) : super(key: key);
+  const HeaderSection({Key key, this.title, this.home = false})
+      : super(key: key);
 
   final String title;
+  final bool home;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,12 @@ class HeaderSection extends StatelessWidget {
           bottomRight: Radius.circular(30.0),
         ),
         color: Theme.of(context).primaryColor,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+          image: AssetImage('assets/cover.jpg'),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,27 +30,32 @@ class HeaderSection extends StatelessWidget {
           InkWell(
             child: Container(
               padding: EdgeInsets.all(20.0),
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
+              child: Row(
+                children: [
+                  !home
+                      ? Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        )
+                      : Container(),
+                  SizedBox(width: 20.0),
+                  Text(
+                    'LOGO',
+                    style: TextStyle(
+                      fontSize: 27,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 7,
+                    ),
+                  ),
+                ],
               ),
             ),
             onTap: () {
               Navigator.pop(context);
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0, top: 30.0),
-            child: Text(
-              'LOGO',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 2,
-              ),
-            ),
-          ),
+          SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(

@@ -132,13 +132,17 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
           controlsBuilder: (BuildContext context,
               {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
             return !context.watch<ChildRegistrationProvider>().isLoading
-                ? DitDoubleStackButton(
-                    firstLabel: 'Previous',
-                    secondLabel: 'Next',
-                    onFirstPressed: onStepCancel,
-                    onSecondPressed: () async {
-                      onPressed(context);
-                    },
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 50.0),
+                    child: DitDoubleStackButton(
+                      firstLabel: 'Previous',
+                      secondLabel: 'Next',
+                      onFirstPressed: onStepCancel,
+                      onSecondPressed: () async {
+                        onPressed(context);
+                      },
+                    ),
                   )
                 : Padding(
                     padding: const EdgeInsets.all(50.0),

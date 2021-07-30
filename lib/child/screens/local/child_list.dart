@@ -39,8 +39,7 @@ class ChildrenList extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: MediaQuery.of(context).size.width / 10,
-                              backgroundImage: NetworkImage(
-                                  "https://media.istockphoto.com/photos/doctor-giving-an-injection-vaccine-to-a-girl-little-girl-crying-with-picture-id1025414242?k=6&m=1025414242&s=612x612&w=0&h=NZVqNKu15qSleWuFERrzfvhK-JFvOdHef2bqJCrXKqY="),
+                              backgroundImage: AssetImage('assets/cover.jpg'),
                             ),
                             Expanded(
                               child: Padding(

@@ -110,16 +110,9 @@ class _HealthPersonnelLoginFormState extends State<HealthPersonnelLoginForm> {
                               .read<HealthPersonnelLoginProvider>()
                               .loginSuccess ==
                           true) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text('Login Successfull'),
-                        ));
                         context.read<AppState>().setIsLoggedIn(true);
                         Navigator.popAndPushNamed(
                             context, RoutePath.health_personnel_home);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text('Login Failed'),
-                        ));
                       }
                     }
                   },

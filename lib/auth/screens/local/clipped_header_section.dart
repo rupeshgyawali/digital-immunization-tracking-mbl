@@ -18,9 +18,7 @@ class ClippedHeaderSection extends StatelessWidget {
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.4), BlendMode.dstATop),
-            image: NetworkImage(
-              'https://media.istockphoto.com/photos/doctor-giving-an-injection-vaccine-to-a-girl-little-girl-crying-with-picture-id1025414242?k=6&m=1025414242&s=612x612&w=0&h=NZVqNKu15qSleWuFERrzfvhK-JFvOdHef2bqJCrXKqY=',
-            ),
+            image: AssetImage('assets/cover.jpg'),
           ),
         ),
         child: Column(
@@ -30,7 +28,7 @@ class ClippedHeaderSection extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(20.0),
                 child: Icon(
-                  Icons.arrow_back,
+                  Icons.arrow_back_ios,
                   color: Colors.white,
                 ),
               ),
