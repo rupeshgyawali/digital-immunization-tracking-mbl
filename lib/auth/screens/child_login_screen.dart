@@ -137,9 +137,22 @@ class _ChildLoginFormState extends State<ChildLoginForm> {
                       RequiredValidator(errorText: 'This field is required'),
                 )
               : Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text('We will send OTP to this phone number.'),
+                  width: double.infinity,
+                  child: Text(
+                    'We will send OTP to this phone number.',
+                    style: TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.right,
+                  ),
                 ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              '* denotes fields are required.',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
           !context.watch<ChildLoginProvider>().isLoading
               ? !context.watch<ChildLoginProvider>().otpSent
                   ? DitButton(
@@ -150,18 +163,21 @@ class _ChildLoginFormState extends State<ChildLoginForm> {
                         await onPressed(context);
                       },
                     )
-                  : DitDoubleStackButton(
-                      firstLabel: 'Resend',
-                      secondLabel: 'Login',
-                      onFirstPressed: () async {
-                        context.read<ChildLoginProvider>().setOtpSent(false);
-                        _otpFieldController.text = "123";
-                        await onPressed(context);
-                        _otpFieldController.text = "";
-                      },
-                      onSecondPressed: () async {
-                        onPressed(context);
-                      },
+                  : Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: DitDoubleStackButton(
+                        firstLabel: 'Resend',
+                        secondLabel: 'Login',
+                        onFirstPressed: () async {
+                          context.read<ChildLoginProvider>().setOtpSent(false);
+                          _otpFieldController.text = "123";
+                          await onPressed(context);
+                          _otpFieldController.text = "";
+                        },
+                        onSecondPressed: () async {
+                          onPressed(context);
+                        },
+                      ),
                     )
               : Container(child: CircularProgressIndicator()),
         ],

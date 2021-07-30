@@ -68,35 +68,32 @@ class DitDoubleStackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: DitButton(
-              label: this.firstLabel,
-              color: Colors.white,
-              minWidth: MediaQuery.of(context).size.width / 2,
-              textStyle:
-                  TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-              padding: EdgeInsets.all(25.0),
-              onPressed: this.onFirstPressed,
-            ),
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: DitButton(
+            label: this.firstLabel,
+            color: Colors.white,
+            minWidth: MediaQuery.of(context).size.width / 2,
+            textStyle:
+                TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+            padding: EdgeInsets.all(25.0),
+            onPressed: this.onFirstPressed,
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: DitButton(
-              label: this.secondLabel,
-              minWidth: MediaQuery.of(context).size.width / 2,
-              textStyle:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              padding: EdgeInsets.all(25.0),
-              onPressed: this.onSecondPressed,
-            ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: DitButton(
+            label: this.secondLabel,
+            minWidth: MediaQuery.of(context).size.width / 2,
+            textStyle:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            padding: EdgeInsets.all(25.0),
+            onPressed: this.onSecondPressed,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

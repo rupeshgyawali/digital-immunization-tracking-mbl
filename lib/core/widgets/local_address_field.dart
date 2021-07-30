@@ -103,12 +103,21 @@ class _LocalAddressFieldState extends State<LocalAddressField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          child: Text(
-            widget.label,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.lightBlueAccent),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: widget.label,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.lightBlueAccent),
+                ),
+                widget.isRequired
+                    ? TextSpan(text: ' *', style: TextStyle(color: Colors.red))
+                    : TextSpan(text: ''),
+              ],
+            ),
           ),
         ),
         SizedBox(

@@ -53,19 +53,21 @@ class DitTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final GestureTapCallback onTap;
   final String initialValue;
+  final bool isRequired;
 
-  const DitTextFormField(
-      {Key key,
-      this.label,
-      this.icon,
-      this.onSaved,
-      this.validator,
-      this.controller,
-      this.onTap,
-      this.initialValue,
-      this.onEditingComplete,
-      this.onChanged})
-      : super(key: key);
+  const DitTextFormField({
+    Key key,
+    this.label,
+    this.icon,
+    this.onSaved,
+    this.validator,
+    this.controller,
+    this.onTap,
+    this.initialValue,
+    this.onEditingComplete,
+    this.onChanged,
+    this.isRequired = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +76,21 @@ class DitTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          child: Text(
-            this.label,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.lightBlueAccent),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: this.label,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.lightBlueAccent),
+                ),
+                isRequired
+                    ? TextSpan(text: ' *', style: TextStyle(color: Colors.red))
+                    : TextSpan(text: ''),
+              ],
+            ),
           ),
         ),
         SizedBox(
