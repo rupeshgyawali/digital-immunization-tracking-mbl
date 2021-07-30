@@ -4,6 +4,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'auth/repositories/auth_repository.dart';
 import 'child/repositories/child_repository.dart';
+import 'config.dart';
 import 'core/helpers/api_base_helper.dart';
 import 'vaccination_record/repositories/child_vaccine_record_repository.dart';
 import 'vaccination_record/repositories/vaccine_repository.dart';
@@ -16,7 +17,7 @@ List<SingleChildWidget> providers = [
 List<SingleChildWidget> independentServices = [
   Provider(
     create: (_) => ApiBaseHelper(
-      baseUrl: 'http://localhost:8000/api',
+      baseUrl: Config.baseApiUrl,
       client: http.Client(),
     ),
     dispose: (_, ApiBaseHelper apiBaseHelper) {
