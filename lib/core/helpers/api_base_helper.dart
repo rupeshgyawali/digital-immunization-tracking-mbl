@@ -94,11 +94,16 @@ class ApiBaseHelper {
       http.MultipartRequest request = http.MultipartRequest(
         'POST',
         Uri.parse(baseUrl + url),
-      )
-        ..files.add(
-          await http.MultipartFile.fromPath(fieldName, filePath),
-        )
-        ..headers.addAll(headers);
+      );
+      try {
+        http.MultipartFile file =
+            await http.MultipartFile.fromPath(fieldName, filePath);
+        request.files.add(file);
+      } on UnsupportedError {
+        print('Api -> Image Upload Not Supported On Web');
+      }
+
+      request.headers.addAll(headers);
 
       http.StreamedResponse streamedResponse = await request.send();
       response = await http.Response.fromStream(streamedResponse);

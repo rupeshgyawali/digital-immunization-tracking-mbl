@@ -37,9 +37,10 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
     for (VaccinationRecord vaccinationRecord in _vaccinationRecords) {
       if (vaccinationRecord.vaccine.id == vaccine.id) {
         return vaccinationRecord.vaccinationDate
-            .toString()
-            .substring(0, 10)
-            .replaceAll(RegExp(r'-'), '/');
+                ?.toString()
+                ?.substring(0, 10)
+                ?.replaceAll(RegExp(r'-'), '/') ??
+            '';
       }
     }
     return '';

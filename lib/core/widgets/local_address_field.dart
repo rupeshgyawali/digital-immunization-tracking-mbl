@@ -109,9 +109,10 @@ class _LocalAddressFieldState extends State<LocalAddressField> {
                 TextSpan(
                   text: widget.label,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.lightBlueAccent),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 widget.isRequired
                     ? TextSpan(text: ' *', style: TextStyle(color: Colors.red))

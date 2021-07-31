@@ -48,7 +48,7 @@ class AppHomeScreen extends StatelessWidget {
                     flex: 1,
                     child: Container(),
                   ),
-                  DitButton.expanded(
+                  DitButtonExpanded(
                     label: 'Health Personal',
                     onPressed: () {
                       Navigator.pushNamed(
@@ -58,7 +58,7 @@ class AppHomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  DitButton.expanded(
+                  DitButtonExpanded(
                     label: 'Child',
                     onPressed: () {
                       Navigator.pushNamed(context, RoutePath.child_home);

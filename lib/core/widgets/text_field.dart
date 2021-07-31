@@ -18,9 +18,10 @@ class DitTextField extends StatelessWidget {
           child: Text(
             this.label,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.lightBlueAccent),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
         SizedBox(
@@ -84,9 +85,10 @@ class DitTextFormField extends StatelessWidget {
                 TextSpan(
                   text: this.label,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.lightBlueAccent),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 isRequired
                     ? TextSpan(text: ' *', style: TextStyle(color: Colors.red))

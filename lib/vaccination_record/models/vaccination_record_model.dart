@@ -12,8 +12,8 @@ class VaccinationRecord {
   VaccinationRecord({
     @required this.childId,
     @required this.vaccine,
-    @required this.photoUrl,
-    @required this.vaccinationDate,
+    this.photoUrl,
+    this.vaccinationDate,
   });
 
   VaccinationRecord copyWith({
@@ -44,7 +44,8 @@ class VaccinationRecord {
       childId: int.parse(map['vaccinationRecord']['childId']),
       vaccine: Vaccine.fromMap(map),
       photoUrl: map['vaccinationRecord']['photo'],
-      vaccinationDate: DateTime.parse(map['vaccinationRecord']['createdAt']),
+      vaccinationDate:
+          DateTime.tryParse(map['vaccinationRecord']['createdAt'] ?? ''),
     );
   }
 

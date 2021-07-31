@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-const TextStyle defaultExpandedTextStyle = TextStyle(
-  color: Colors.lightBlueAccent,
-  fontSize: 25,
-  fontWeight: FontWeight.bold,
-);
-
 class DitButton extends StatelessWidget {
   const DitButton({
     Key key,
@@ -16,18 +10,6 @@ class DitButton extends StatelessWidget {
     this.minWidth,
     this.padding,
   }) : super(key: key);
-
-  const DitButton.expanded({
-    Key key,
-    @required this.label,
-    this.onPressed,
-    Color color,
-    TextStyle textStyle,
-    this.padding,
-  })  : this.color = color ?? Colors.white,
-        this.textStyle = textStyle ?? defaultExpandedTextStyle,
-        this.minWidth = double.infinity,
-        super(key: key);
 
   final String label;
   final VoidCallback onPressed;
@@ -48,6 +30,43 @@ class DitButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(label, style: textStyle, textAlign: TextAlign.center),
       ),
+    );
+  }
+}
+
+class DitButtonExpanded extends StatelessWidget {
+  const DitButtonExpanded(
+      {Key key,
+      this.label,
+      this.onPressed,
+      this.color,
+      this.textStyle,
+      this.minWidth,
+      this.padding})
+      : super(key: key);
+
+  final String label;
+  final VoidCallback onPressed;
+  final Color color;
+  final TextStyle textStyle;
+  final double minWidth;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return DitButton(
+      key: key,
+      label: this.label,
+      color: this.color ?? Colors.white,
+      onPressed: this.onPressed,
+      textStyle: this.textStyle ??
+          TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+      padding: this.padding,
+      minWidth: double.infinity,
     );
   }
 }
@@ -76,8 +95,9 @@ class DitDoubleStackButton extends StatelessWidget {
             label: this.firstLabel,
             color: Colors.white,
             minWidth: MediaQuery.of(context).size.width / 2,
-            textStyle:
-                TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+            textStyle: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold),
             padding: EdgeInsets.all(25.0),
             onPressed: this.onFirstPressed,
           ),
