@@ -146,6 +146,7 @@ class _LocalAddressFieldState extends State<LocalAddressField> {
                       _selectedProvince = value;
                       _selectedDistrict = null;
                       _selectedMunicipality = null;
+                      print(_selectedProvince.id);
                       _getDistrictList(_selectedProvince.id);
                     });
                   },
@@ -280,7 +281,7 @@ class _LocalAddressFieldState extends State<LocalAddressField> {
 
   Future<void> _getDistrictList(int provinceId) async {
     String districtListJson =
-        await rootBundle.loadString('district-by-province/$provinceId');
+        await rootBundle.loadString('assets/district-by-province/$provinceId');
     setState(() {
       _districtList = (json.decode(districtListJson) as List)
           .map((district) => District(district['id'], district['districtName']))
@@ -289,8 +290,8 @@ class _LocalAddressFieldState extends State<LocalAddressField> {
   }
 
   Future<void> _getMunicipalityList(int districtId) async {
-    String municipalityListJson =
-        await rootBundle.loadString('municipality-by-district/$districtId');
+    String municipalityListJson = await rootBundle
+        .loadString('assets/municipality-by-district/$districtId');
     setState(() {
       _municipalityList = (json.decode(municipalityListJson) as List)
           .map((municipality) => Municipality(

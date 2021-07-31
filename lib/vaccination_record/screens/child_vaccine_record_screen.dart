@@ -120,7 +120,7 @@ class ChildVaccineRecordScreen extends StatelessWidget {
                                     style: TextStyle(fontSize: 58),
                                   ),
                                   foregroundImage: NetworkImage(
-                                    "${Config.storageUrl}/${context.watch<ChildVaccineRecordProvider>()?.vaccinationRecords?.last?.photoUrl ?? ' '}",
+                                    "${Config.storageUrl}/${context.watch<ChildVaccineRecordProvider>()?.getPhotoUrlForChild() ?? ''}",
                                   ),
                                   onForegroundImageError: (obj, __) {
                                     print(obj);
@@ -374,6 +374,7 @@ class ChildVaccineDetails extends StatelessWidget {
   Future<void> _onSwitchChanged(
       BuildContext context, bool value, Vaccine vaccine) async {
     if (!isEditable) return;
+
     if (value) {
       if (!await _showUploadPhotoDialog(context)) return;
       final XFile pickedFile =
@@ -388,6 +389,7 @@ class ChildVaccineDetails extends StatelessWidget {
           .read<ChildVaccineRecordProvider>()
           .addVaccineToChildRecord(vaccine, photoPath: pickedFile.path);
     } else {
+      if (!await _showUndoVaccinationDialog(context)) return;
       context
           .read<ChildVaccineRecordProvider>()
           .removeVaccineFromChildRecord(vaccine);
@@ -400,7 +402,8 @@ class ChildVaccineDetails extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Text('Add record without photo?'),
-        content: Text('Image upload is not supported on web.'),
+        content: Text(
+            'Image upload is not supported on web. Default Image will be used.'),
         actions: [
           TextButton(
             child: Text('No'),
@@ -433,6 +436,32 @@ class ChildVaccineDetails extends StatelessWidget {
                     Navigator.pop(context, true);
                   },
                 ),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
+  Future<bool> _showUndoVaccinationDialog(BuildContext context) async {
+    return await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Undo Vaccination?'),
+            content: Text('Vaccination record will be deleted.'),
+            actionsPadding: EdgeInsets.symmetric(horizontal: 20.0),
+            actions: [
+              TextButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+              TextButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
               ),
             ],
           ),

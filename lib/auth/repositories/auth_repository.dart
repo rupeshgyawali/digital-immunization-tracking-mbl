@@ -22,7 +22,7 @@ class AuthRepository {
 
   Future<bool> logoutHealthPersonnel() async {
     bool remoteSuccess = await _deleteTokenFromRemote();
-    bool localSuccess = await _deleteTokenFromRemote();
+    bool localSuccess = await _deleteTokenFromLocalCache();
 
     return remoteSuccess && localSuccess;
   }

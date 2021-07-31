@@ -3,6 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/routes/route_paths.dart';
+import '../../core/routes/router.dart';
 import '../../core/widgets/button.dart';
 import '../../core/widgets/local_address_field.dart';
 import '../../core/widgets/text_field.dart';
@@ -164,10 +165,11 @@ class _ChildRegistrationFormState extends State<ChildRegistrationForm> {
       await context.read<ChildRegistrationProvider>().registerChild();
       if (context.read<ChildRegistrationProvider>().registrationSuccess ==
           true) {
-        Navigator.pushNamed(
+        Navigator.popAndPushNamed(
           context,
           RoutePath.child_details,
-          arguments: context.read<ChildRegistrationProvider>().newChild,
+          arguments: ChildVaccineRecordRouteArgument(
+              context.read<ChildRegistrationProvider>().newChild),
         );
       }
     }

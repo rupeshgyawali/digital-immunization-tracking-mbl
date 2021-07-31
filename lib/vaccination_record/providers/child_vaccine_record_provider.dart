@@ -55,6 +55,13 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
     return null;
   }
 
+  String getPhotoUrlForChild() {
+    if (_vaccinationRecords?.isEmpty ?? true) {
+      return '';
+    }
+    return _vaccinationRecords.last?.photoUrl ?? '';
+  }
+
   Future<void> getChildVaccineRecord() async {
     try {
       _vaccinationRecords =
