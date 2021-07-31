@@ -21,9 +21,10 @@ class AuthRepository {
   }
 
   Future<bool> logoutHealthPersonnel() async {
-    return await _deleteTokenFromLocalCache() && await _deleteTokenFromRemote()
-        ? true
-        : false;
+    bool remoteSuccess = await _deleteTokenFromRemote();
+    bool localSuccess = await _deleteTokenFromRemote();
+
+    return remoteSuccess && localSuccess;
   }
 
   Future<bool> generateOtp(String phoneNo) async {
@@ -99,7 +100,7 @@ class AuthRepository {
   //Remove locally saved auth token
   Future<bool> _deleteTokenFromLocalCache() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.remove('auth_token');
+    return await prefs.remove('auth_token');
   }
 
   //Revoke currently authenticated user's auth tokens from remote
