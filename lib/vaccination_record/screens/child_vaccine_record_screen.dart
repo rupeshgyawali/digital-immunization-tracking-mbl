@@ -130,19 +130,19 @@ class ChildVaccineRecordScreen extends StatelessWidget {
                                 Column(
                                   children: [
                                     Text(
-                                      child.name,
+                                      child.name ?? '',
                                       style: textStyleBold,
                                     ),
                                     Text(
-                                      child.birthPlace,
+                                      child.birthPlace ?? '',
                                       style: textStyle,
                                     ),
                                     Text(
-                                      child.temporaryAddr,
+                                      child.temporaryAddr ?? '',
                                       style: textStyle,
                                     ),
                                     Text(
-                                      child.dob,
+                                      child.dob ?? '',
                                       style: textStyle,
                                     ),
                                   ],
@@ -181,11 +181,11 @@ class ChildVaccineRecordScreen extends StatelessWidget {
                                                 style: textStyleBold,
                                               ),
                                               Text(
-                                                '${child.fatherName}',
+                                                '${child.fatherName ?? ""}',
                                                 style: textStyle,
                                               ),
                                               Text(
-                                                '${child.fatherPhn}',
+                                                '${child.fatherPhn ?? ""}',
                                                 style: textStyle,
                                               ),
                                             ],
@@ -203,11 +203,11 @@ class ChildVaccineRecordScreen extends StatelessWidget {
                                             style: textStyleBold,
                                           ),
                                           Text(
-                                            '${child.motherName}',
+                                            '${child.motherName ?? ""}',
                                             style: textStyle,
                                           ),
                                           Text(
-                                            '${child.motherPhn}',
+                                            '${child.motherPhn ?? ""}',
                                             style: textStyle,
                                           ),
                                         ],
@@ -312,7 +312,7 @@ class ChildVaccineDetails extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            vaccine.description,
+                                            vaccine.description ?? "",
                                             style: TextStyle(
                                               fontSize: 12.0,
                                               height: 1.25,

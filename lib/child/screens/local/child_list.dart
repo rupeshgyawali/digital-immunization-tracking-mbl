@@ -68,7 +68,7 @@ class ChildrenList extends StatelessWidget {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            child.name,
+                                            child.name ?? '',
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class ChildrenList extends StatelessWidget {
                                         Icon(Icons.cake_outlined, size: 16),
                                         Expanded(
                                           child: Text(
-                                            child.dob,
+                                            child.dob ?? '',
                                             style: TextStyle(fontSize: 14),
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -95,7 +95,7 @@ class ChildrenList extends StatelessWidget {
                                         Icon(Icons.home_outlined, size: 16),
                                         Expanded(
                                           child: Text(
-                                            child.temporaryAddr,
+                                            child.temporaryAddr ?? '',
                                             style: TextStyle(fontSize: 14),
                                             overflow: TextOverflow.ellipsis,
                                           ),
