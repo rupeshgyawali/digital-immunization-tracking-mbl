@@ -1,4 +1,3 @@
-import 'package:digital_immunization_tracking/childdetails3.dart';
 import 'package:flutter/material.dart';
 
 class NewClient extends StatefulWidget {
@@ -24,8 +23,6 @@ class _NewClientState extends State<NewClient> {
               fathername == "John" &&
               mothername == "Lily" &&
               parentphonenumber == "9876543210") {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ChildDetails3()));
           } else {
             print("Error");
           }
