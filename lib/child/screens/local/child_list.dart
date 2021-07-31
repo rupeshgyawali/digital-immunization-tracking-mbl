@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../config.dart';
 import '../../../core/routes/route_paths.dart';
+import '../../../core/routes/router.dart';
 import '../../models/child_model.dart';
 
 class ChildrenList extends StatelessWidget {
-  const ChildrenList({Key key, @required this.children}) : super(key: key);
+  const ChildrenList({Key key, @required this.children, this.isEditable = true})
+      : super(key: key);
 
   final List<Child> children;
+  final bool isEditable;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,8 @@ class ChildrenList extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         RoutePath.child_details,
-                        arguments: child,
+                        arguments: ChildVaccineRecordRouteArgument(child,
+                            isEditable: isEditable),
                       );
                     },
                     child: Container(

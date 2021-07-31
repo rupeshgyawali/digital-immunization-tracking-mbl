@@ -42,7 +42,10 @@ class ChildHomeScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: ChildrenList(children: children),
+            child: ChildrenList(
+              children: children,
+              isEditable: false,
+            ),
           ),
         ],
       ),

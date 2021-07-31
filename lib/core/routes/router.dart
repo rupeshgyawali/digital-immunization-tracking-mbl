@@ -12,6 +12,13 @@ import '../../vaccination_record/screens/child_vaccine_record_screen.dart';
 import '../models/app_state.dart';
 import 'route_paths.dart';
 
+class ChildVaccineRecordRouteArgument {
+  final Child child;
+  final bool isEditable;
+
+  ChildVaccineRecordRouteArgument(this.child, {this.isEditable = true});
+}
+
 class Router {
   Router._();
 
@@ -46,8 +53,9 @@ class Router {
       case '${RoutePath.child_details}':
         final args = settings.arguments;
 
-        if (args is Child) {
-          return _materialPageRoute(ChildVaccineRecordScreen(child: args));
+        if (args is ChildVaccineRecordRouteArgument) {
+          return _materialPageRoute(ChildVaccineRecordScreen(
+              child: args.child, isEditable: args.isEditable));
         }
 
         return _errorRoute();

@@ -24,10 +24,12 @@ const BorderRadius bottomRoundedBorderRadius = BorderRadius.only(
 
 class ChildVaccineRecordScreen extends StatelessWidget {
   final Child child;
+  final bool isEditable;
 
   const ChildVaccineRecordScreen({
     Key key,
     @required this.child,
+    this.isEditable = true,
   }) : super(key: key);
 
   @override
@@ -222,7 +224,7 @@ class ChildVaccineRecordScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ChildVaccineDetails(),
+              ChildVaccineDetails(isEditable: this.isEditable),
             ],
           ),
         ),
@@ -232,11 +234,10 @@ class ChildVaccineRecordScreen extends StatelessWidget {
 }
 
 class ChildVaccineDetails extends StatelessWidget {
-  ChildVaccineDetails({
-    Key key,
-  }) : super(key: key);
+  ChildVaccineDetails({Key key, this.isEditable = true}) : super(key: key);
 
   final ImagePicker _picker = ImagePicker();
+  final bool isEditable;
 
   @override
   Widget build(BuildContext context) {
@@ -372,6 +373,7 @@ class ChildVaccineDetails extends StatelessWidget {
 
   Future<void> _onSwitchChanged(
       BuildContext context, bool value, Vaccine vaccine) async {
+    if (!isEditable) return;
     if (value) {
       if (!await _showUploadPhotoDialog(context)) return;
       final XFile pickedFile =
