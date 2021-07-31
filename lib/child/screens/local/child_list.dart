@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../config.dart';
 import '../../../core/routes/route_paths.dart';
 import '../../models/child_model.dart';
 
@@ -39,7 +40,19 @@ class ChildrenList extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: MediaQuery.of(context).size.width / 10,
-                              backgroundImage: AssetImage('assets/cover.jpg'),
+                              child: Text(
+                                child.name?.substring(0, 1) ?? '',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width / 10 -
+                                            20),
+                              ),
+                              foregroundImage: NetworkImage(
+                                "${Config.storageUrl}/${child.photo ?? ' '}",
+                              ),
+                              onForegroundImageError: (obj, __) {
+                                print(obj);
+                              },
                             ),
                             Expanded(
                               child: Padding(

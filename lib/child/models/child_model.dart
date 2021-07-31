@@ -13,6 +13,7 @@ class Child {
   final String motherPhn;
   final String temporaryAddr;
   final String permanentAddr;
+  final String photo;
 
   Child({
     this.id,
@@ -25,6 +26,7 @@ class Child {
     this.motherPhn,
     this.temporaryAddr,
     this.permanentAddr,
+    this.photo,
   })  : assert(fatherPhn != null || motherPhn != null,
             'Either father or mother phone number is requied'),
         assert(temporaryAddr != null || permanentAddr != null,
@@ -41,6 +43,7 @@ class Child {
     String motherPhn,
     String temporaryAddr,
     String permanentAddr,
+    String photo,
   }) {
     return Child(
       id: id ?? this.id,
@@ -53,6 +56,7 @@ class Child {
       motherPhn: motherPhn ?? this.motherPhn,
       temporaryAddr: temporaryAddr ?? this.temporaryAddr,
       permanentAddr: permanentAddr ?? this.permanentAddr,
+      photo: photo ?? this.photo,
     );
   }
 
@@ -83,6 +87,7 @@ class Child {
       motherPhn: map['motherPhn'],
       temporaryAddr: map['temporaryAddr'],
       permanentAddr: map['permanentAddr'],
+      photo: map['photo'],
     );
   }
 
@@ -92,7 +97,7 @@ class Child {
 
   @override
   String toString() {
-    return 'Child(id: $id, name: $name, dob: $dob, birthPlace: $birthPlace, fatherName: $fatherName, motherName: $motherName, fatherPhn: $fatherPhn, motherPhn: $motherPhn, temporaryAddr: $temporaryAddr, permanentAddr: $permanentAddr)';
+    return 'Child(id: $id, name: $name, dob: $dob, birthPlace: $birthPlace, fatherName: $fatherName, motherName: $motherName, fatherPhn: $fatherPhn, motherPhn: $motherPhn, temporaryAddr: $temporaryAddr, permanentAddr: $permanentAddr, photo: $photo)';
   }
 
   @override
@@ -109,7 +114,8 @@ class Child {
         other.fatherPhn == fatherPhn &&
         other.motherPhn == motherPhn &&
         other.temporaryAddr == temporaryAddr &&
-        other.permanentAddr == permanentAddr;
+        other.permanentAddr == permanentAddr &&
+        other.photo == photo;
   }
 
   @override
@@ -123,6 +129,7 @@ class Child {
         fatherPhn.hashCode ^
         motherPhn.hashCode ^
         temporaryAddr.hashCode ^
-        permanentAddr.hashCode;
+        permanentAddr.hashCode ^
+        photo.hashCode;
   }
 }
