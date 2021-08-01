@@ -11,6 +11,7 @@ class AppHomeScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
+            flex: 2,
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -40,6 +41,7 @@ class AppHomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
+            flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: Column(
@@ -67,6 +69,31 @@ class AppHomeScreen extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Container(),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          'or\nView Details About',
+                          style: TextStyle(color: Colors.grey, height: 1.75),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      DitButton(
+                        label: 'National Immunization Programme',
+                        minWidth: MediaQuery.of(context).size.width,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, RoutePath.programme_info);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

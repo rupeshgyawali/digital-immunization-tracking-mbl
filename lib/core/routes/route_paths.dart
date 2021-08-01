@@ -2,6 +2,7 @@ class RoutePath {
   RoutePath._();
 
   static const String app_home = '/app-home';
+  static const String programme_info = '/programme-info';
   static const String health_personnel_login = '/health-personal-login';
   static const String health_personnel_home = '/health_personnel_home';
   static const String child_search = '/child-search';

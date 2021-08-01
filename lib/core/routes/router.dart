@@ -4,6 +4,7 @@ import '../../auth/screens/app_home_screen.dart';
 import '../../auth/screens/child_login_screen.dart';
 import '../../auth/screens/health_personnel_home_screen.dart';
 import '../../auth/screens/health_personnel_login_screen.dart';
+import '../../auth/screens/national_immunization_programme_info_screen.dart';
 import '../../child/models/child_model.dart';
 import '../../child/screens/child_home_screen.dart';
 import '../../child/screens/child_registration_screen.dart';
@@ -32,6 +33,8 @@ class Router {
         return _materialPageRoute(AppHomeScreen());
       case '${RoutePath.app_home}':
         return _materialPageRoute(AppHomeScreen());
+      case '${RoutePath.programme_info}':
+        return _slideTransitionRoute(NationalImmunizationProgrammeInfo());
       case '${RoutePath.health_personnel_login}':
         return _slideTransitionRoute(HealthPersonalLoginScreen());
       case '${RoutePath.health_personnel_home}':

@@ -62,7 +62,7 @@ class DitButtonExpanded extends StatelessWidget {
       textStyle: this.textStyle ??
           TextStyle(
             color: Theme.of(context).primaryColor,
-            fontSize: 25,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
       padding: this.padding,

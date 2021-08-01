@@ -226,6 +226,15 @@ class NameDobAndBirthPlaceField extends StatelessWidget {
             onSaved: context.read<ChildRegistrationProvider>().setBirthPlace,
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              '* denotes fields are required.',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
         ],
       ),
     );
@@ -281,6 +290,15 @@ class FatherAndMotherNameField extends StatelessWidget {
             onSaved: context.read<ChildRegistrationProvider>().setMotherName,
             validator: RequiredValidator(errorText: 'This field is required'),
           ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              '* denotes fields are required.',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
         ],
       ),
     );
@@ -317,6 +335,15 @@ class FatherAndMotherPhoneNoField extends StatelessWidget {
             initialValue: context.read<ChildRegistrationProvider>().motherPhn,
             onSaved: context.read<ChildRegistrationProvider>().setMotherPhn,
             validator: RequiredValidator(errorText: 'This field is required'),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              '* denotes fields are required.',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.grey),
+            ),
           ),
         ],
       ),
@@ -357,6 +384,15 @@ class TemporaryAndPermanentAddressField extends StatelessWidget {
                   context.read<ChildRegistrationProvider>().permanentAddr,
               onSaved:
                   context.read<ChildRegistrationProvider>().setPermanentAddr,
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                '* denotes fields are required.',
+                textAlign: TextAlign.right,
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ],
         ),
