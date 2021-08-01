@@ -11,6 +11,7 @@ import '../providers/child_vaccine_record_provider.dart';
 import '../providers/vaccine_provider.dart';
 import '../repositories/child_vaccine_record_repository.dart';
 import '../repositories/vaccine_repository.dart';
+import 'local/full_screen_image.dart';
 
 final TextStyle textStyle = TextStyle(color: Colors.white, height: 1.25);
 final TextStyle textStyleBold = textStyle.copyWith(
@@ -113,18 +114,22 @@ class ChildVaccineRecordScreen extends StatelessWidget {
                             Column(
                               children: [
                                 SizedBox(width: double.infinity),
-                                CircleAvatar(
-                                  radius: 70,
-                                  child: Text(
-                                    child.name?.substring(0, 1) ?? '',
-                                    style: TextStyle(fontSize: 58),
+                                ImageFullScreenWrapperWidget(
+                                  imageUrl:
+                                      "${Config.storageUrl}/${context.watch<ChildVaccineRecordProvider>()?.getPhotoUrlForChild() ?? ''}",
+                                  child: CircleAvatar(
+                                    radius: 70,
+                                    child: Text(
+                                      child.name?.substring(0, 1) ?? '',
+                                      style: TextStyle(fontSize: 58),
+                                    ),
+                                    foregroundImage: NetworkImage(
+                                      "${Config.storageUrl}/${context.watch<ChildVaccineRecordProvider>()?.getPhotoUrlForChild() ?? ''}",
+                                    ),
+                                    onForegroundImageError: (obj, __) {
+                                      print(obj);
+                                    },
                                   ),
-                                  foregroundImage: NetworkImage(
-                                    "${Config.storageUrl}/${context.watch<ChildVaccineRecordProvider>()?.getPhotoUrlForChild() ?? ''}",
-                                  ),
-                                  onForegroundImageError: (obj, __) {
-                                    print(obj);
-                                  },
                                 ),
                                 SizedBox(height: 6.0),
                                 Column(
@@ -335,6 +340,10 @@ class ChildVaccineDetails extends StatelessWidget {
                                                   style: textStyle,
                                                 )
                                               : Text(''),
+                                          ViewImageText(
+                                            photoUrl:
+                                                '${context.watch<ChildVaccineRecordProvider>().getPhotoUrlFromVaccine(vaccine)}',
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -467,5 +476,29 @@ class ChildVaccineDetails extends StatelessWidget {
           ),
         ) ??
         false;
+  }
+}
+
+class ViewImageText extends StatelessWidget {
+  final String photoUrl;
+
+  const ViewImageText({
+    Key key,
+    @required this.photoUrl,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return photoUrl.isNotEmpty
+        ? ImageFullScreenWrapperWidget(
+            imageUrl: '${Config.storageUrl}/$photoUrl',
+            child: Text(
+              "View Vaccination Photo",
+              style: TextStyle(
+                color: Colors.white60,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          )
+        : Text('');
   }
 }

@@ -49,10 +49,10 @@ class ChildVaccineRecordProvider extends ChangeNotifier {
   String getPhotoUrlFromVaccine(Vaccine vaccine) {
     for (VaccinationRecord vaccinationRecord in _vaccinationRecords) {
       if (vaccinationRecord.vaccine.id == vaccine.id) {
-        return vaccinationRecord.photoUrl;
+        return vaccinationRecord.photoUrl ?? '';
       }
     }
-    return null;
+    return '';
   }
 
   String getPhotoUrlForChild() {
